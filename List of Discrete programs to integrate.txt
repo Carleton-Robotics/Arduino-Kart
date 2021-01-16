@@ -1,0 +1,10 @@
+List of Discrete programs we would like to integrate:
+
+hall effect sensor
+PID loops
+bluetooth
+Digital potentiometer
+Motor controller
+Acutator relays
+steering
+throttle
