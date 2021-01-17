@@ -1,15 +1,13 @@
+
 #include <Arduino.h>
 #include "MCP45HVX1.h"
-
-
 
 class Throttle
 {
   public:
-    Throttle(int address)
+    Throttle()
     {
-      //0x3C
-      MCP45HVX1 digiPot(address);
+      MCP45HVX1 digiPot(0x3C);
       digiPot.begin(); 
       digiPot.writeWiper(0);
     }
@@ -41,4 +39,3 @@ class Throttle
       throttleWrite(0);
     }
 };
-
