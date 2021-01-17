@@ -1,6 +1,6 @@
 List of Discrete programs we would like to integrate:
 
-hall effect sensor
+hall effect sensor for velocity
 PID loops
 bluetooth
 Digital potentiometer
@@ -8,3 +8,4 @@ Motor controller
 Acutator relays
 steering
 throttle
+front facing radar array for safety
