@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include "Adafruit_BLE.h"
+/*#include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
 #define BLE_MODE_PIN 12
 #define BUFFER_SIZE 128
@@ -64,3 +63,4 @@ void loop() {
     Serial.println((char)c);
   }
 }
+*/
