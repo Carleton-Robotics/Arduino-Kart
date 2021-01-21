@@ -7,7 +7,7 @@
 
 void setup() {
   // put your setup code here, to run once:
-  // This space intentionally left blankasdf
+  // This space intentionally left blank
 }
 
 void loop() {
