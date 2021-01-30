@@ -1,4 +1,4 @@
-
+#include <Arduino.h>
 /*TODO: create Odometer class with functions to get current speed and total elapsed position since initialization 
  * use Throttle as a guide. 
  */
