@@ -31,4 +31,22 @@ void extend_then_stop_actuator(int time_delay) {
   stop_actuator();
 }
 
-void extend_by_percentage_then_stop(int percent)
+// input percentage as an integer value e.g. 100
+void extend_by_percentage_then_stop(int percent) {
+  float percent_to_decimal = percent / 100;
+  float time_delay = percent_to_decimal * 2200;
+  digitalWrite(input_1, LOW);
+  digitalWrite(input_2, HIGH);
+  delay(time_delay);
+  stop_actuator();
+}
+
+// input percentage as an integer value e.g. 100
+void retract_by_percentage_then_stop(int percent) {
+  float percent_to_decimal = percent / 100;
+  float time_delay = percent_to_decimal * 2200;
+  digitalWrite(input_1, HIGH);
+  digitalWrite(input_2, LOW);
+  delay(time_delay);
+  stop_actuator();
+}
