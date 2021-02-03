@@ -30,3 +30,5 @@ void extend_then_stop_actuator(int time_delay) {
   delay(time_delay);
   stop_actuator();
 }
+
+void extend_by_percentage_then_stop(int percent)

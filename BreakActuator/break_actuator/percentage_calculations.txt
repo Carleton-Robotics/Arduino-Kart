@@ -1,0 +1,14 @@
+GOAL: 
+* Allow user to input a percentage of maximum length, 
+  and break actuator moves to that percentage
+
+RECORDED VALUES:
+* it takes 10.6 seconds to reach FULL EXTENSION
+* FULL EXTENSION (measuring from tip of actuator): 122mm
+* FULL RETRACTION (measuring from tip of actuator): 22mm
+* moves 100mm in 11 seconds
+
+CALCULATIONS:
+* 100mm/11seconds
+* 20mm/2.2seconds
+
