@@ -5,8 +5,8 @@ class Odometer
   public:
     bool toothPresent; //Quoc told me to create and give the variables values in seperate places
     float interval;
-    long updateTime;
-    int count;
+    long updateTime;//NOTE: potential for overflow after ~20 days
+    long count;//Note: potential for overflow after ~2billion teeth are read
     float pi;
     float tps;
     float rpm;

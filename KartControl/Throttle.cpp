@@ -14,17 +14,13 @@ class Throttle
     void throttleWrite(int val)//0-255
     {
 
-      else if val>throttleRead()
-      {
-        while (throttleRead() < val)
-        {
+      if (val>throttleRead()) {
+        while (throttleRead() < val) {
           digiPot.incrementWiper();
         }
       }
-      else if(val< throttleRead())
-      {
-      while (throttleRead() > val)
-        {
+      else if(val< throttleRead()) {
+        while (throttleRead() > val) {
           digiPot.decrementWiper();
         }
       }
