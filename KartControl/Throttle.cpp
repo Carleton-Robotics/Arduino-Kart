@@ -2,12 +2,10 @@
 #include <Arduino.h>
 #include "MCP45HVX1.h"
 
-class Throttle
-{
+class Throttle {
   public:
-    Throttle()
-    {
-      MCP45HVX1 digiPot(0x3C);
+    MCP45HVX1 digiPot;
+    Throttle() {
       digiPot.begin(); 
       digiPot.writeWiper(0);
     }
@@ -26,12 +24,10 @@ class Throttle
       }
     }
   
-    int throttleRead()
-    {
-      return digiPot.readWiper()
+    int throttleRead(){
+      return digiPot.readWiper();
     }
-    void throttleEStop()
-    {
+    void throttleEStop(){
       throttleWrite(0);
     }
 };
