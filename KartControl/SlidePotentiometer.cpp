@@ -18,7 +18,7 @@ class SlidePotentiometer
       goal = 50;
     }
     
-    void getValue() {
+    int getValue() {
       // put your main code here, to run repeatedly:
       sensorValue = analogRead(A1);
       Serial.println(sensorValue);
@@ -32,5 +32,6 @@ class SlidePotentiometer
       else if (currentPrecentage = goal) {
         Serial.println("At our goal")
       }
+      return currentPrecentage;
     }
 };
