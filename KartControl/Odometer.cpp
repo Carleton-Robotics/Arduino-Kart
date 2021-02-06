@@ -1,49 +1,54 @@
 #include <Arduino.h>
-/*TODO: create Odometer class with functions to get current speed and total elapsed position since initialization 
- * use Throttle as a guide. 
- */
-bool toothPresent = false;
-int n = 1000; // ms between updates
-int updateTime = n;
-int count = 0;
-float pi = 3.1415926535897932384626433832795;
 
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  pinMode(5, INPUT_PULLUP);
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  int hallValue = digital,Read(5);
-  //Serial.print("Hall value: ");
-  //Serial.println(hallValue);
-  //Serial.println(analogRead(5));
-  //Serial.print("Count: ");
-  //Serial.println(count);
-  if (toothPresent == false && hallValue != 0) {// assuming we dont have it backwards
-    //Serial.println("called");
-    toothPresent = true;
-    count+=1;
-  }
-  else if (toothPresent == true && hallValue == 0) {
-    //Serial.println("also called");
-    toothPresent = false;
-    count+=1;
-  }
-  if (millis() >= updateTime) {
-    //Serial.println(count);
-    //Serial.print (millis());
-    updateTime += n;
-    float tpns = count/2/(n/1000);
-    float rpm = tpns/45*60; //(there are 45 teeth)
-    Serial.println(rpm);
-    float ipm = rpm*2*3.8125*pi; //(ipm stands for inches per minute. 3.8125 in is the radius of the gear)
-    float mph = ipm * 9.47/pow(10,4);
-    count = 0;
-    //Serial.println(tpns);
-    //Serial.print("the current speed in mph is:");
-    //Serial.println(mph);
-  }
-}
+class Odometer
+{
+  public:
+    bool toothPresent; //Quoc told me to create and give the variables values in seperate places
+    float interval;
+    long updateTime;
+    int count;
+    float pi;
+    float tps;
+    float rpm;
+    float ipm;
+    float mph;
+    int hallValue;
+    
+    Odometer()
+    {
+      // put your setup code here, to run once:
+      toothPresent = false;
+      interval = 1; // seconds between updates
+      updateTime = 0;
+      count = 0;
+      pi = 3.1415926535897932384626433832795;
+      mph = 0;
+      //Serial.begin(9600); I think this is redundant now?
+      pinMode(5, INPUT_PULLUP);
+    }
+    
+    void pingOdometer() {
+      // put your main code here, to run repeatedly:
+      hallValue = digitalRead(5);
+      if (toothPresent == false && hallValue == 0) {
+        toothPresent = true;
+        count+=1;
+      }
+      else if (toothPresent == true && hallValue != 0) {
+        toothPresent = false;
+        count+=1;
+      }
+      if (millis() >= updateTime) {
+        updateTime += interval*1000;
+        tps = count/interval/2;
+        rpm = tps/45*60; //(there are 45 teeth)
+        ipm = rpm*2*3.8125*pi; //(ipm stands for inches per minute. 3.8125 in is the radius of the gear)
+        mph = ipm * 9.47/pow(10,4);
+        count = 0;
+      }
+    }
+    float readMPH()
+    {
+      return mph;
+    }
+};
