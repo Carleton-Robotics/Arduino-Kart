@@ -13,9 +13,10 @@ class Odometer
     float rpm;
     float ipm;
     int hallValue;
+    int pin;
   public:
     float state;
-    Odometer()
+    Odometer(int pin)
     {
       // put your setup code here, to run once:
       toothPresent = false;
@@ -25,7 +26,8 @@ class Odometer
       pi = 3.1415926535897932384626433832795;
       state = 0;
       //Serial.begin(9600); I think this is redundant now?
-      pinMode(5, INPUT_PULLUP);
+      pin = pin;
+      pinMode(pin, INPUT_PULLUP);
     }
     
     void updateReading() {
