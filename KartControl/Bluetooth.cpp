@@ -1,5 +1,9 @@
+
 /*
  * Evan is Assigned to this
+=======
+/*Assigned to evan
+>>>>>>> ce5119c77db1d69342bf9f86dff32ace4715e94c
 #include <Arduino.h>
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"

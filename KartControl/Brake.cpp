@@ -2,6 +2,7 @@
 //quoc is assigned to this
 
 
+
 class Brake {
   private:
     int control1;
