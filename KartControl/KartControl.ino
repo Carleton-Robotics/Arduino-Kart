@@ -5,7 +5,7 @@
 #import "Wheel.cpp"
 
 //this code is basically a switching yard for information between the kart and the phone
-Odometer odometer;
+Odometer odometer(pin=5);
 Throttle throttle;
 //Brake brake(controlPin1 = ,controlPin2 = ,potentiometerPin = ,endOfTravelValue = );
 
