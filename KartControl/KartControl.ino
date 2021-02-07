@@ -3,7 +3,9 @@
 #import "Throttle.cpp"
 #import "Brake.cpp"
 #import "Wheel.cpp"
-Odometer myOdometer;
+
+Odometer odometer;
+Throttle throttle;
 
 void setup() {
   // put your setup code here, to run once:
@@ -14,14 +16,18 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   // This space intentionally left blank
-  myOdometer.pingOdometer(); //update odometer
+  odometer.ping(); //update odometer
   //if (millis()%500 == 0) { // Prints our speed every 500 ms
   //  Serial.print("MPH: ");
   //  Serial.println(myOdometer.readMPH());
   //}
 }
 
-//void update_kart_
+void updateKart(){
+  odometer.updateReading();
+  throttle.updateReading();
+  
+}
 
 /*
  * Every Loop we should

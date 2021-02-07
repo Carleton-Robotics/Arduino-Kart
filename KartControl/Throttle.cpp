@@ -3,11 +3,14 @@
 #include "MCP45HVX1.h"
 
 class Throttle {
-  public:
+  private:
     MCP45HVX1 digiPot;
+  public:
+    state;
     Throttle() : digiPot(0x3C) {
       digiPot.begin(); 
       digiPot.writeWiper(0);
+      state = digiPot.readWiper();
     }
     void throttleWrite(int val)//0-255
     {
@@ -24,8 +27,8 @@ class Throttle {
       }
     }
   
-    int throttleRead(){
-      return digiPot.readWiper();
+    int updateReading(){
+      state = digiPot.readWiper();
     }
     void throttleEStop(){
       throttleWrite(0);

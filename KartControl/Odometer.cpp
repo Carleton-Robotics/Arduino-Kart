@@ -27,7 +27,7 @@ class Odometer
       pinMode(5, INPUT_PULLUP);
     }
     
-    void pingOdometer() {
+    void updateReading() {
       // put your main code here, to run repeatedly:
       hallValue = digitalRead(5);
       if (toothPresent == false && hallValue == 0) {
