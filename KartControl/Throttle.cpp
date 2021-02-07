@@ -5,7 +5,7 @@
 class Throttle {
   public:
     MCP45HVX1 digiPot;
-    Throttle() {
+    Throttle() : digiPot(0x3C) {
       digiPot.begin(); 
       digiPot.writeWiper(0);
     }
