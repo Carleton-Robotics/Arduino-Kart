@@ -6,7 +6,7 @@
 
 //this code is basically a switching yard for information between the kart and the phone
 Odometer odometer(pin=5);
-Throttle throttle;
+Throttle throttle(switchPin = );//note the I2C pins are hardcoded into the library we are extending for the digipot
 //Brake brake(controlPin1 = ,controlPin2 = ,potentiometerPin = ,endOfTravelValue = );
 
 void setup() {
