@@ -2,8 +2,9 @@
 
 class Odometer
 {
-  public:
-    bool toothPresent; //Quoc told me to create and give the variables values in seperate places
+  
+  private:
+    bool toothPresent; 
     float interval;
     long updateTime;//NOTE: potential for overflow after ~20 days
     long count;//Note: potential for overflow after ~2billion teeth are read
@@ -11,9 +12,9 @@ class Odometer
     float tps;
     float rpm;
     float ipm;
-    float mph;
     int hallValue;
-    
+  public:
+    float state;
     Odometer()
     {
       // put your setup code here, to run once:
@@ -22,7 +23,7 @@ class Odometer
       updateTime = 0;
       count = 0;
       pi = 3.1415926535897932384626433832795;
-      mph = 0;
+      state = 0;
       //Serial.begin(9600); I think this is redundant now?
       pinMode(5, INPUT_PULLUP);
     }
@@ -43,12 +44,9 @@ class Odometer
         tps = count/interval/2;
         rpm = tps/45*60; //(there are 45 teeth)
         ipm = rpm*2*3.8125*pi; //(ipm stands for inches per minute. 3.8125 in is the radius of the gear)
-        mph = ipm * 9.47/pow(10,4);
+        state = ipm * 9.47/pow(10,4);
         count = 0;
       }
     }
-    float readMPH()
-    {
-      return mph;
-    }
+    
 };

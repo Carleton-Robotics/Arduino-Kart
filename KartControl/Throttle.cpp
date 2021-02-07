@@ -5,12 +5,17 @@
 class Throttle {
   private:
     MCP45HVX1 digiPot;
+    int switchPin;
+    
   public:
-    state;
-    Throttle() : digiPot(0x3C) {
+    int state;
+    Throttle(int switchPin) : digiPot(0x3C) {
       digiPot.begin(); 
       digiPot.writeWiper(0);
+      switchPin = switchPin;
+      pinMode(switchPin,OUTPUT);
       state = digiPot.readWiper();
+      
     }
     void throttleWrite(int val)//0-255
     {
@@ -26,8 +31,16 @@ class Throttle {
         }
       }
     }
-  
-    int updateReading(){
+    void updateCommand(int on){
+      if (on){
+        digitalWrite(switchPin,HIGH);
+      }
+      else{
+        digitalWrite(switchPin,LOW);
+      }
+      
+    }
+    void updateReading(){
       state = digiPot.readWiper();
     }
     void throttleEStop(){
