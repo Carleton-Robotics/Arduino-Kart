@@ -8,7 +8,7 @@ class Brake {
     int control1;
     int contol2;
     int pot;
-    int endOfTravelValue;
+    int endOfTravelValue;//it might actually make sense to keep mechanism specific constant in the class files... idk lets talk
   public:
     int state;
     
