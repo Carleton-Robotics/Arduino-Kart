@@ -18,26 +18,15 @@ class Throttle {
       state = digiPot.readWiper();
       
     }
-    void throttleWrite(int val)//0-255
-    {
-
-      if (val>throttleRead()) {
-        while (throttleRead() < val) {
-          digiPot.incrementWiper();
-        }
-      }
-      else if(val< throttleRead()) {
-        while (throttleRead() > val) {
-          digiPot.decrementWiper();
-        }
-      }
-    }
-    void updateCommand(int on){
-      if (on){
+    
+    void updateCommand(int val){//0-255
+      if (val>0){
+        digiPot.writeWiper(val)
         digitalWrite(switchPin,HIGH);
       }
       else{
         digitalWrite(switchPin,LOW);
+        digiPot.writeWiper(val)
       }
       
     }
