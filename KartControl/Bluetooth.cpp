@@ -3,6 +3,8 @@
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
 
+#define receivedPacketSize 3
+
 /*
  * Bluetooth() must be passesed Serial1
  * Initialization Order
@@ -10,10 +12,7 @@
  * 
  * send takes char parameters that are sent as a char array
  * 
- * write writes to an int array that is passes to it
- * nothing is returned - the array that was passed to it is updated
- * the array must be the same size as what the phone sends
- * 
+ * getCommands return the most recent value for each device
  */
 
 class Bluetooth{
@@ -33,17 +32,27 @@ class Bluetooth{
     }
     digitalWrite(12, LOW);
   };
-  void read(int packet[], int size){
-    while(ble->available() >= size){
-      for(int i = 0; i < size; i++){
+  void updateValues(){
+    while(ble->available() >= receivedPacketSize){
+      for(int i = 0; i < receivedPacketSize; i++){
         packet[i] = ble->read();
       }
     }
   };
+  int getThrottle(){
+    return packet[0];
+  }
+  int getWheel(){
+    return packet[1];
+  }
+  int getBrake(){
+    return packet[2];
+  }
   void send(char a, char b, char c){ //Up to 20 parameters can be addes
     char toSend[] = {a, b, c, '\0'}; //Must add new variables to array
     ble->write(toSend); //Phone code must know the number of variables to expect
   }
   private:
   Adafruit_BluefruitLE_UART *ble;
+  int packet[receivedPacketSize] = {0, 255, 90};
 };
