@@ -1,73 +1,49 @@
-
-/*
- * Evan is Assigned to this
-=======
-/*Assigned to evan
->>>>>>> ce5119c77db1d69342bf9f86dff32ace4715e94c
-#include <Arduino.h>
+#include "Arduino.h"
+#include "HardwareSerial.h"
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
-#define BLE_MODE_PIN 12
-#define BUFFER_SIZE 128
 
-Adafruit_BluefruitLE_UART ble(Serial1, -1);
+/*
+ * Bluetooth() must be passesed Serial1
+ * Initialization Order
+ * Constrictor, begin, connect
+ * 
+ * send takes char parameters that are sent as a char array
+ * 
+ * write writes to an int array that is passes to it
+ * nothing is returned - the array that was passed to it is updated
+ * the array must be the same size as what the phone sends
+ * 
+ */
 
-void error(){
-  Serial.println("ERROR");
-  while(1);
-}
-
-void setup() {
-  // put your setup code here, to run once:
-  while(!Serial){
-    delay(500);
+class Bluetooth{
+  public:
+  Bluetooth(HardwareSerial &port){ //Must be passes Serial Port Serial1
+    ble = new Adafruit_BluefruitLE_UART(port, -1);
+  };
+  void begin(){
+    pinMode(12, OUTPUT);
+    ble->begin();
+    ble->info();
+  };
+  void connect(){
+    digitalWrite(12, HIGH);
+    while(!ble->isConnected()){
+      delay(500);
+    }
+    digitalWrite(12, LOW);
+  };
+  void read(int packet[], int size){
+    while(ble->available() >= size){
+      for(int i = 0; i < size; i++){
+        packet[i] = ble->read();
+      }
+    }
+  };
+  void send(char a, char b, char c){ //Up to 20 parameters can be addes
+    char toSend[] = {a, b, c, '\0'}; //Must add new variables to array
+    ble->write(toSend); //Phone code must know the number of variables to expect
   }
-  Serial.begin(115200);
-
-  pinMode(12, OUTPUT);
-  digitalWrite(12, HIGH);
-  delay(300);
-  
-  if(!ble.begin(true)){
-    Serial.println("Could Not Find Bluefruit");
-    error();
-  }
-  Serial.println("OK");
-  ble.echo(false);
-
-  ble.info();
-  ble.verbose(false);
-
-  Serial.println("Waiting for Connection...");
-  while(!ble.isConnected()){
-    delay(500);
-  }
-
-  //Serial.println("Switch to Data Mode");
-  digitalWrite(12, LOW);
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  char n, inputs[BUFFER_SIZE+1];
-
-  // Send Data
-  if(Serial.available()){
-    n = Serial.readBytes(inputs, BUFFER_SIZE);
-    inputs[n] = 0;
-
-    // Echo
-    Serial.print("Sending: ");
-    Serial.println(inputs);
-
-    // Send
-    ble.print(inputs);
-  }
-
-  // Recieve Data
-  while(ble.available()){
-    int c = ble.read();
-    Serial.println((char)c);
-  }
-}
-*/
+  private:
+  Adafruit_BluefruitLE_UART *ble;
+};
