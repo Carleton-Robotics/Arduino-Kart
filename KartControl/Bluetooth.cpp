@@ -17,7 +17,7 @@
 
 class Bluetooth{
   public:
-  Bluetooth(HardwareSerial &port){ //Must be passes Serial Port Serial1
+  Bluetooth(HardwareSerial &port){ //Must be passed Serial1
     ble = new Adafruit_BluefruitLE_UART(port, -1);
   };
   void begin(){
