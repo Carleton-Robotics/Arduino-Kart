@@ -1,30 +1,26 @@
+#include <RoboClaw.h>
+#include <SoftwareSerial.h>
 
-#include <Arduino.h>
-#include <Servo.h>
-//in the end we are going to want to use the serial interface with the roboclaw motor controller so this implementation is temporary.
+#define address 0x80
+#define baudRate 38400
 
-class Wheel {
+#define defaultSpeed 10000
+#define defaultAccel 10000
+#define defaultDecel 10000
 
-  private:
-    int controlPin;
-    Servo myservo;
-
+class SteeringMotor : public RoboClaw{
   public:
-    int state;
-    
-    Wheel(int controlPin) {
-      controlPin = controlPin;
-      myservo.attach(controlPin);
-      
-    }
-    void updateCommand(int pos){
-      myservo.write(pos);
-      state = pos;
-    }
+  SteeringMotor(SoftwareSerial *serial) : RoboClaw(serial, 10000){
 
-    void updateReading(){
-      //empty for now until we have the other library up and running
-    }
-    
+  }
+  void begin(){
+    RoboClaw::begin(baudRate);
+  }
+  bool goTo(uint32_t pos, uint32_t speed = defaultSpeed, uint32_t accel = defaultAccel, uint32_t decel = defaultDecel){
+    return RoboClaw::SpeedAccelDeccelPositionM1(address, accel, speed, decel, pos, 0);
+  }
+  uint32_t getPos(){
+    return RoboClaw::ReadEncM1(address);
+  }
   
-}
+};
