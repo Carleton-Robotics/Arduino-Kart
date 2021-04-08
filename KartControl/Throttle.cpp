@@ -1,39 +1,27 @@
-
-
+#include "Throttle.h"
 #include <Arduino.h>
-#include "MCP45HVX1.h"
+Throttle::Throttle(int switchPin) : digiPot(0x3C) {
+    digiPot.begin();
+    digiPot.writeWiper(0);
+    switchPin = switchPin;
+    pinMode(switchPin, OUTPUT);
+    state = digiPot.readWiper();
+}
 
-class Throttle {
-  private:
-    MCP45HVX1 digiPot;
-    int switchPin;
-    
-  public:
-    int state;
-    Throttle(int switchPin) : digiPot(0x3C) {
-      digiPot.begin(); 
-      digiPot.writeWiper(0);
-      switchPin = switchPin;
-      pinMode(switchPin,OUTPUT);
-      state = digiPot.readWiper();
-      
+void Throttle::updateCommand(int val) {//0-255
+    if (val > 0) {
+        digiPot.writeWiper(val);
+        digitalWrite(switchPin, HIGH);
+    } else {
+        digitalWrite(switchPin, LOW);
+        digiPot.writeWiper(val);
     }
-    
-    void updateCommand(int val){//0-255
-      if (val>0){
-        digiPot.writeWiper(val)
-        digitalWrite(switchPin,HIGH);
-      }
-      else{
-        digitalWrite(switchPin,LOW);
-        digiPot.writeWiper(val)
-      }
-      
-    }
-    void updateReading(){
-      state = digiPot.readWiper();
-    }
-    void throttleEStop(){
-      throttleWrite(0);
-    }
-};
+}
+
+void Throttle::updateReading() {
+    state = digiPot.readWiper();
+}
+
+void Throttle::throttleEStop() {
+    updateCommand(0);
+}
