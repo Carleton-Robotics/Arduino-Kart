@@ -1,13 +1,16 @@
-#import "Bluetooth.cpp"
-#import "Odometer.cpp"
-#import "Throttle.cpp"
-#import "Brake.cpp"
-#import "Wheel.cpp"
+#include "Bluetooth.h"
+#include "Odometer.h"
+#include "Throttle.h"
+#include "Brake.h"
+#include "Wheel.h"
 
+#define ODOMETER_PIN 5
+#define THROTTLE_SWITCH_PIN 6
+#define WHEEL_CONTROL_PIN 7
 //this code is basically a switching yard for information between the kart and the phone
-Odometer odometer(pin=5);
-Throttle throttle(switchPin = );//note the I2C pins are hardcoded into the library we are extending for the digipot
-Wheel wheel(controlPin = )
+Odometer odometer(ODOMETER_PIN);
+Throttle throttle(THROTTLE_SWITCH_PIN);//note the I2C pins are hardcoded into the library we are extending for the digipot
+//SteeringMotor wheel(WHEEL_CONTROL_PIN);
 //Brake brake(controlPin1 = ,controlPin2 = ,potentiometerPin = ,endOfTravelValue = );
 
 void setup() {
@@ -29,15 +32,15 @@ void updateStateVariables(){
   
   odometer.updateReading();
   throttle.updateReading();
-  wheel.updateReading();
-  brake.updateReading();
+//  wheel.updateReading();
+//  brake.updateReading();
 }
 
 //here is where you update your demands for all of the kart peripherals. Each function takes a 0-1000 which is mapped to required range in classes integer input
 void updateCommands(){
   throttle.updateCommand(100);
-  wheel.updateCommand(100);
-  brake.updateCommand(500);
+//  wheel.updateCommand(100);
+//  brake.updateCommand(500);
 }
   
   
