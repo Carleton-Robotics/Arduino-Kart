@@ -6,9 +6,9 @@ Brake::Brake(int controlPin1,int controlPin2, int potentiometerPin){
     pot = potentiometerPin;
     pinMode(control1,OUTPUT);
     pinMode(control2, OUTPUT);
-    state = map(analogRead(pot),0,1024,0,100);
-    endOfTravelValue = 415;
-    startOfTravelValue = 817;
+    startOfTravelValue = 415;
+    endOfTravelValue = 817;
+    state = 100-map(analogRead(pot),startOfTravelValue,endOfTravelValue,0,100);
     updateCommand(0);
 
     //initialize pins for control and potentiometer, set to zero-brakes condition,
@@ -16,7 +16,7 @@ Brake::Brake(int controlPin1,int controlPin2, int potentiometerPin){
 
 
 void Brake::updateReading(){
-    state = map(analogRead(pot), startOfTravelValue, endOfTravelValue,0,1000);
+    state = map(analogRead(pot), startOfTravelValue, endOfTravelValue,0,100);
 }
 
 void Brake::updateCommand(int target){
