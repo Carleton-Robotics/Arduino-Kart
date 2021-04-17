@@ -1,19 +1,25 @@
 // Bluetooth
-#define BluetoothModePin 23 
-#define BluetoothPowerPin 2 //Actual
-//Bluetooth Serial is Serial1
+#define BluetoothModePin 0
+#define BluetoothPowerPin 2 
+// Serial1
+    // Tx1 = 18
+    // Rx1 = 19
 
-//SteeringMotor
-#define SteeringMotorSerial Serial2
-//SteeringMotorSerial is Serial2
+// SteeringMotor
+// Serial2
+    // Tx2 = 16
+    // Rx2 = 17
 
-//Throttle
-#define ThrottleSwitchPin 14
+// Throttle
+#define ThrottleSwitchPin 11 //?
+// I2C
+    // SDA = 20
+    // SCL = 21
 
-//Odometer
-#define OdometerPin 15
+// Odometer
+#define OdometerPin 0
 
-//Brake
+// Brake
 #define BrakePin1 11 //Actual
 #define BrakePin2 12 //Actual
-#define BrakePotentiometerPin 9
+#define BrakePotentiometerPin 0
