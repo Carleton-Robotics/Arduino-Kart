@@ -1,38 +1,33 @@
-
-#ifndef ARDUINO_KART_BLUETOOTH_H
-#define ARDUINO_KART_BLUETOOTH_H
-#include "Arduino.h"
-#include "HardwareSerial.h"
-#include "Adafruit_BLE.h"
-#include "Adafruit_BluefruitLE_UART.h"
-
-#define receivedPacketSize 3
+#include <Arduino.h>
+#include <HardwareSerial.h>
+#include <Adafruit_BluefruitLE_UART.h>
 
 /*
  * Bluetooth() must be passesed Serial1
  * Initialization Order
  * Constrictor, begin, connect
- *
+ * 
  * send takes char parameters that are sent as a char array
- *
+ * 
  * getCommands return the most recent value for each device
  */
 
-class Bluetooth{
+class Bluetooth : public Adafruit_BluefruitLE_UART{
 public:
-    Bluetooth(HardwareSerial &port){ //Must be passed Serial1
-        ble = new Adafruit_BluefruitLE_UART(port, -1);
-    };
-    void begin();
-    void connect();
-    void updateValues();
-    int getThrottle();
-    int getWheel();
-    int getBrake();
-    void send(char a, char b, char c);
+  Bluetooth(HardwareSerial serial, int powerPin, int modePin);
+  void begin();
+  void connect(HardwareSerial Serial);
+  void updateValues();
+  int getThrottle();
+  int getWheel();
+  int getBrake();
+  void send(char a, char b, char c);
 private:
-    Adafruit_BluefruitLE_UART *ble;
-    int packet[receivedPacketSize] = {0, 255, 90};
+  static const int ThrottleDefaultValue = 0;
+  static const int WheelDefaultValue = 0;
+  static const int BrakeDefaultValue = 0;
+  static const int ReceivedPacketSize = 3;
+  int packet[ReceivedPacketSize] = {ThrottleDefaultValue, WheelDefaultValue, BrakeDefaultValue};
+  int modePin;
+  int powerPin;
 };
-
-#endif //ARDUINO_KART_BLUETOOTH_H

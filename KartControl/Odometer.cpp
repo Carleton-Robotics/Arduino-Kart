@@ -11,7 +11,6 @@ Odometer::Odometer(int pin)
     count = 0;
     pi = 3.1415926535897932384626433832795;
     state = 0;
-    //Serial.begin(9600); I think this is redundant now?
     pin = pin;
     pinMode(pin, INPUT_PULLUP);
 }
@@ -35,4 +34,8 @@ void Odometer::updateReading() {
         state = ipm * 9.47/pow(10,4);
         count = 0;
     }
+}
+char Odometer::getValue() {
+    //should map state to a char
+    return 'A';
 }

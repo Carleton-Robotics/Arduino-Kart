@@ -1,54 +1,52 @@
+#include <Arduino.h>
+#include "Pinouts.h"
 #include "Bluetooth.h"
+#include "SteeringMotor.h"
+#include "Brake.h"
 #include "Odometer.h"
 #include "Throttle.h"
-#include "Brake.h"
-#include "Wheel.h"
 
-#define ODOMETER_PIN 5
-#define THROTTLE_SWITCH_PIN 6
-#define WHEEL_CONTROL_PIN 7
-//this code is basically a switching yard for information between the kart and the phone
-Odometer odometer(ODOMETER_PIN);
-Throttle throttle(THROTTLE_SWITCH_PIN);//note the I2C pins are hardcoded into the library we are extending for the digipot
-//SteeringMotor wheel(WHEEL_CONTROL_PIN);
-//Brake brake(controlPin1 = ,controlPin2 = ,potentiometerPin = ,endOfTravelValue = );
+
+Bluetooth bluetooth(Serial1, BluetoothPowerPin, BluetoothModePin);
+
+SteeringMotor wheel(&Serial2);
+
+Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
+
+Odometer odometer(OdometerPin);
+
+Throttle throttle(ThrottleSwitchPin);
 
 void setup() {
   // put your setup code here, to run once:
   // This space intentionally left blank
   Serial.begin(9600);
-  
+
+  bluetooth.begin();
+  bluetooth.connect(Serial);
+
+  wheel.begin();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   // This space intentionally left blank
+  
   updateStateVariables();
   updateCommands();
+  bluetooth.send(odometer.getValue(), 'A', 'B');
 }
 
 //this is where you make sure the object state variables are set to the correct values
 void updateStateVariables(){
-  
-  odometer.updateReading();
+  bluetooth.updateValues();
+  brake.updateReading();
   throttle.updateReading();
-//  wheel.updateReading();
-//  brake.updateReading();
 }
 
-//here is where you update your demands for all of the kart peripherals. Each function takes a 0-1000 which is mapped to required range in classes integer input
+//here is where you update your demands for all of the kart peripherals.
 void updateCommands(){
-  throttle.updateCommand(100);
-//  wheel.updateCommand(100);
-//  brake.updateCommand(500);
+  brake.updateCommand(bluetooth.getBrake());
+  wheel.goTo(bluetooth.getWheel());
+  throttle.updateCommand(bluetooth.getThrottle());
 }
-  
-  
-
-
-/*
- * Every Loop we should
- * update kart values
- * read new commands
- * send new variable vals
- */

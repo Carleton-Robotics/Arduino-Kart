@@ -1,34 +1,43 @@
 #include "Bluetooth.h"
 
+Bluetooth::Bluetooth(HardwareSerial serial, int modePin, int powerPin) : Adafruit_BluefruitLE_UART(serial){
+  modePin = modePin;
+  powerPin = powerPin;
+}
+
 void Bluetooth::begin(){
-    pinMode(12, OUTPUT);
-    ble->begin();
-    ble->info();
-};
-void Bluetooth::connect(){
-    digitalWrite(12, HIGH);
-    while(!ble->isConnected()){
-        delay(500);
-    }
-    digitalWrite(12, LOW);
+  pinMode(powerPin, OUTPUT);
+  pinMode(modePin, OUTPUT);
+  digitalWrite(powerPin, HIGH);
+  delay(500); //Might not be needed
+  Adafruit_BluefruitLE_UART::begin();
+}
+void Bluetooth::connect(HardwareSerial Serial){
+  digitalWrite(modePin, HIGH);
+  Serial.println("Waiting For Connection...");
+  while(Adafruit_BluefruitLE_UART::isConnected()){
+    delay(500);
+  }
+  Serial.println("CONNECTED");
+  digitalWrite(modePin, LOW);
 };
 void Bluetooth::updateValues(){
-    while(ble->available() >= receivedPacketSize){
-        for(int i = 0; i < receivedPacketSize; i++){
-            packet[i] = ble->read();
-        }
+  while(Adafruit_BluefruitLE_UART::available() >= ReceivedPacketSize){
+    for(int i = 0; i < ReceivedPacketSize; i++){
+      packet[i] = Adafruit_BluefruitLE_UART::read();
     }
-};
+  }
+}
 int Bluetooth::getThrottle(){
-    return packet[0];
+  return packet[0];
 }
 int Bluetooth::getWheel(){
-    return packet[1];
+  return packet[1];
 }
 int Bluetooth::getBrake(){
-    return packet[2];
+  return packet[2];
 }
-void Bluetooth::send(char a, char b, char c){ //Up to 20 parameters can be addes
-    char toSend[] = {a, b, c, '\0'}; //Must add new variables to array
-    ble->write(toSend); //Phone code must know the number of variables to expect
+void Bluetooth::send(char a, char b, char c){ //Up to 20 parameters can be added
+  char toSend[] = {a, b, c, '\0'}; //Must add new variables to array
+  Adafruit_BluefruitLE_UART::write(toSend); //Phone code must know the number of variables to expect
 }

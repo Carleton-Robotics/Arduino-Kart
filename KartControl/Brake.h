@@ -1,6 +1,3 @@
-
-#ifndef ARDUINO_KART_BRAKE_H
-#define ARDUINO_KART_BRAKE_H
 #include <Arduino.h>
 
 class Brake {
@@ -17,5 +14,3 @@ public:
     void updateReading();
     void updateCommand(int target);
 };
-
-#endif //ARDUINO_KART_BRAKE_H

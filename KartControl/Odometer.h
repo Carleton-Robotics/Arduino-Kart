@@ -1,6 +1,3 @@
-
-#ifndef ARDUINO_KART_ODOMETER_H
-#define ARDUINO_KART_ODOMETER_H
 #include <Arduino.h>
 
 class Odometer
@@ -22,6 +19,5 @@ class Odometer
     Odometer(int pin);
 
     void updateReading();
+    char getValue();
 };
-
-#endif //ARDUINO_KART_ODOMETER_H
