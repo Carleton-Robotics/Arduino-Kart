@@ -1,6 +1,6 @@
 // Bluetooth
-#define BluetoothModePin 0
-#define BluetoothPowerPin 2 
+#define BluetoothModePin 23
+#define BluetoothPowerPin 2
 // Serial1
     // Tx1 = 18
     // Rx1 = 19
@@ -20,6 +20,6 @@
 #define OdometerPin 0
 
 // Brake
-#define BrakePin1 11 //Actual
-#define BrakePin2 12 //Actual
-#define BrakePotentiometerPin 0
+#define BrakePin1 12
+#define BrakePin2 13
+#define BrakePotentiometerPin 9
