@@ -8,7 +8,7 @@ Throttle::Throttle(int switchPin) : digiPot(0x3C) {
     state = digiPot.readWiper();
 }
 
-void Throttle::updateCommand(int val) {//0-255
+void Throttle::updateCommand(int val) { //0-255
     if (val > 0) {
         digiPot.writeWiper(val);
         digitalWrite(switchPin, HIGH);

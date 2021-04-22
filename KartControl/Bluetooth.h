@@ -23,11 +23,14 @@ public:
   int getBrake();
   void send(char a, char b, char c);
 private:
-  static const int ThrottleDefaultValue = 0;
-  static const int WheelDefaultValue = 0;
-  static const int BrakeDefaultValue = 0;
-  static const int ReceivedPacketSize = 3;
-  int packet[ReceivedPacketSize] = {ThrottleDefaultValue, WheelDefaultValue, BrakeDefaultValue};
+  // Default Values for each thing controlled over bluetooth
+  // Will be returned if no data has yet been sent from the phone
+  static const int THROTTLE_DEFAULT_VALUE = 0;
+  static const int WHEEL_DEFAULT_VALUE = 0;
+  static const int BRAKE_DEFAULT_VALUE = 0;
+  static const int RECIEVED_PACKET_SIZE = 3;
+  int packet[RECIEVED_PACKET_SIZE] = {THROTTLE_DEFAULT_VALUE, WHEEL_DEFAULT_VALUE, BRAKE_DEFAULT_VALUE};
+
   int modePin;
   int powerPin;
 };

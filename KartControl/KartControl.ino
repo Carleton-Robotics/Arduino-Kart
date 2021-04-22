@@ -9,7 +9,7 @@
 
 Bluetooth bluetooth(Serial1, BluetoothPowerPin, BluetoothModePin);
 
-SteeringMotor wheel(&Serial2);
+SteeringMotor steeringMotor(&Serial2);
 
 Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
 
@@ -18,35 +18,43 @@ Odometer odometer(OdometerPin);
 Throttle throttle(ThrottleSwitchPin);
 
 void setup() {
-  // put your setup code here, to run once:
-  // This space intentionally left blank
   Serial.begin(9600);
 
   bluetooth.begin();
   bluetooth.connect(Serial);
 
-  wheel.begin();
+  steeringMotor.begin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  // This space intentionally left blank
-  
   updateStateVariables();
   updateCommands();
-  bluetooth.send(odometer.getValue(), 'A', 'B');
 }
 
 //this is where you make sure the object state variables are set to the correct values
 void updateStateVariables(){
+  //Update each thing
   bluetooth.updateValues();
   brake.updateReading();
   throttle.updateReading();
+  
+  //Print Values for Debugging
+  printValues();
+
+  //Send updated values to phone
+  bluetooth.send(odometer.getValue(), steeringMotor.getPos(), 'A');
 }
 
 //here is where you update your demands for all of the kart peripherals.
 void updateCommands(){
   brake.updateCommand(bluetooth.getBrake());
-  wheel.goTo(bluetooth.getWheel());
+  steeringMotor.goTo(bluetooth.getWheel());
   throttle.updateCommand(bluetooth.getThrottle());
+}
+
+void printValues(){
+  Serial.print("Odometer: ");
+  Serial.print(odometer.getValue());
+  Serial.print(" Steering Motor: ");
+  Serial.println(steeringMotor.getPos());
 }

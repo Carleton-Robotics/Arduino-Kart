@@ -22,8 +22,8 @@ void Bluetooth::connect(HardwareSerial Serial){
   digitalWrite(modePin, LOW);
 };
 void Bluetooth::updateValues(){
-  while(Adafruit_BluefruitLE_UART::available() >= ReceivedPacketSize){
-    for(int i = 0; i < ReceivedPacketSize; i++){
+  while(Adafruit_BluefruitLE_UART::available() >= RECIEVED_PACKET_SIZE){
+    for(int i = 0; i < RECIEVED_PACKET_SIZE; i++){
       packet[i] = Adafruit_BluefruitLE_UART::read();
     }
   }
