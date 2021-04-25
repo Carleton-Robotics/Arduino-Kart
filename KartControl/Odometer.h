@@ -12,6 +12,7 @@ class Odometer{
     int hallValue;
     int pin;
 
+    static const int interval = 1; //Seconds between updates
     static const float pi = 3.1415926535897932384626433832795;
     static const float ODOMETER_MIN_VALUE = 0;
     static const float ODOMETER_MAX_VALUE = 500;

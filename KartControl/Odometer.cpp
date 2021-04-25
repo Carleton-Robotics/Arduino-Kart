@@ -4,7 +4,6 @@
 
 Odometer::Odometer(int pin): pin(pin){
     toothPresent = false;
-    interval = 1; // seconds between updates
     updateTime = 0;
     count = 0;
     state = 0;
