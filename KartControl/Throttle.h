@@ -9,6 +9,7 @@ private:
 public:
     int state;
     Throttle(int switchPin);
+    void begin();
 
     void updateCommand(int val);
     void updateReading();

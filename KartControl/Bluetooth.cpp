@@ -1,8 +1,10 @@
 #include "Bluetooth.h"
+#include <Arduino.h>
 
-Bluetooth::Bluetooth(HardwareSerial serial, int modePin, int powerPin) : Adafruit_BluefruitLE_UART(serial){
-  modePin = modePin;
-  powerPin = powerPin;
+Bluetooth::Bluetooth(HardwareSerial serial, int modePin, int powerPin): 
+  Adafruit_BluefruitLE_UART(serial), 
+  modePin(modePin), 
+  powerPin(powerPin){
 }
 
 void Bluetooth::begin(){
@@ -12,11 +14,11 @@ void Bluetooth::begin(){
   delay(500); //Might not be needed
   Adafruit_BluefruitLE_UART::begin();
 }
-void Bluetooth::connect(HardwareSerial Serial){
+void Bluetooth::connect(HardwareSerial &Serial){
   digitalWrite(modePin, HIGH);
   Serial.println("Waiting For Connection...");
-  while(Adafruit_BluefruitLE_UART::isConnected()){
-    delay(500);
+  while(!Adafruit_BluefruitLE_UART::isConnected()){
+    delay(50);
   }
   Serial.println("CONNECTED");
   digitalWrite(modePin, LOW);

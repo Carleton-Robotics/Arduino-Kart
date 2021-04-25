@@ -2,16 +2,14 @@
 
 
 
-Odometer::Odometer(int pin)
-{
-    // put your setup code here, to run once:
+Odometer::Odometer(int pin): pin(pin){
     toothPresent = false;
     interval = 1; // seconds between updates
     updateTime = 0;
     count = 0;
-    pi = 3.1415926535897932384626433832795;
     state = 0;
-    pin = pin;
+}
+void Odometer::begin(){
     pinMode(pin, INPUT_PULLUP);
 }
 

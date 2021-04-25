@@ -11,15 +11,15 @@
     // Rx2 = 17
 
 // Throttle
-#define ThrottleSwitchPin 11 //?
+#define ThrottleSwitchPin 11
 // I2C
     // SDA = 20
     // SCL = 21
 
 // Odometer
-#define OdometerPin 0
+#define OdometerPin 12
 
 // Brake
-#define BrakePin1 12
-#define BrakePin2 13
-#define BrakePotentiometerPin 9
+#define BrakePin1 8
+#define BrakePin2 9
+#define BrakePotentiometerPin A1
