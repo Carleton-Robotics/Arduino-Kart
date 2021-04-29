@@ -11,6 +11,7 @@ class Odometer{
     float ipm;
     int hallValue;
     int pin;
+    int powerPin;
 
     static const int interval = 1; //Seconds between updates
     static const float pi = 3.1415926535897932384626433832795;
@@ -19,7 +20,7 @@ class Odometer{
 
   public:
     float state;
-    Odometer(int pin);
+    Odometer(int pin, int powerPin);
     void begin();
 
     void updateReading();

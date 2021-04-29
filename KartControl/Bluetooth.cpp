@@ -1,33 +1,43 @@
 #include "Bluetooth.h"
 #include <Arduino.h>
 
-Bluetooth::Bluetooth(HardwareSerial serial, int modePin, int powerPin): 
+Bluetooth::Bluetooth(HardwareSerial serial, int modePin, int powerPin, void (*E_STOP)(void), HardwareSerial &Serial)
   Adafruit_BluefruitLE_UART(serial), 
   modePin(modePin), 
-  powerPin(powerPin){
+  powerPin(powerPin),
+  groundPin(groundPin),
+  STOP(E_STOP){
 }
 
 void Bluetooth::begin(){
   pinMode(powerPin, OUTPUT);
   pinMode(modePin, OUTPUT);
+  pinMode(groundPin, OUTPUT);
+  digitalWrite(groundPin, LOW);
   digitalWrite(powerPin, HIGH);
   delay(500); //Might not be needed
   Adafruit_BluefruitLE_UART::begin();
 }
-void Bluetooth::connect(HardwareSerial &Serial){
+void Bluetooth::connect(){
   digitalWrite(modePin, HIGH);
-  Serial.println("Waiting For Connection...");
+  serial.println("Waiting For Connection...");
   while(!Adafruit_BluefruitLE_UART::isConnected()){
     delay(50);
   }
-  Serial.println("CONNECTED");
+  serial.println("CONNECTED");
   digitalWrite(modePin, LOW);
 };
 void Bluetooth::updateValues(){
-  while(Adafruit_BluefruitLE_UART::available() >= RECIEVED_PACKET_SIZE){
-    for(int i = 0; i < RECIEVED_PACKET_SIZE; i++){
-      packet[i] = Adafruit_BluefruitLE_UART::read();
+  if(Adafruit_BluefruitLE_UART::isConnected()){
+    while(Adafruit_BluefruitLE_UART::available() >= RECIEVED_PACKET_SIZE){
+      for(int i = 0; i < RECIEVED_PACKET_SIZE; i++){
+        packet[i] = Adafruit_BluefruitLE_UART::read();
+      }
     }
+  } else {
+    //E-Stop
+    STOP();
+    connect();
   }
 }
 int Bluetooth::getThrottle(){

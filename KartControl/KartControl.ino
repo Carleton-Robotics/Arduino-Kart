@@ -7,15 +7,15 @@
 #include "Throttle.h"
 
 
-Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothPowerPin);
+Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothPowerPin, BluetoothGroundPin, eStop, Serial);
 
 SteeringMotor steeringMotor(&Serial2);
 
-Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
+Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin, BrakePowerPin);
 
-Odometer odometer(OdometerPin);
+Odometer odometer(OdometerPin, OdometerPowerPin);
 
-Throttle throttle(ThrottleSwitchPin);
+Throttle throttle(ThrottleSwitchPin, ThrottlePowerPin);
 
 void setup() {
   Serial.begin(9600);
@@ -28,7 +28,7 @@ void setup() {
   throttle.begin();
 
 
-  bluetooth.connect(Serial);
+  bluetooth.connect();
 
   //steeringMotor.begin();
 }
@@ -64,4 +64,7 @@ void printValues(){
   // Serial.print(odometer.getValue());
   // Serial.print(" Steering Motor: ");
   // Serial.println(steeringMotor.getPos());
+}
+void eStop(){
+  throttle.throttleEStop();
 }

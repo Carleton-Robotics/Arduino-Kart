@@ -14,9 +14,9 @@
 
 class Bluetooth : public Adafruit_BluefruitLE_UART{
 public:
-  Bluetooth(HardwareSerial serial, int powerPin, int modePin);
+  Bluetooth(HardwareSerial serial, int powerPin, int modePin, int groundPin, void (*E_STOP)(void), HardwareSerial &Serial);
   void begin();
-  void connect(HardwareSerial &Serial);
+  void connect();
   void updateValues();
   int getThrottle();
   int getWheel();
@@ -33,4 +33,8 @@ private:
 
   int modePin;
   int powerPin;
+  int groundPin;
+
+  HardwareSerial serial;
+  void (*STOP)(void);
 };

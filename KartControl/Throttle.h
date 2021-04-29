@@ -5,10 +5,11 @@ class Throttle {
 private:
     MCP45HVX1 digiPot;
     int switchPin;
+    int powerPin;
+    int state;
 
 public:
-    int state;
-    Throttle(int switchPin);
+    Throttle(int switchPin, int powerPin);
     void begin();
 
     void updateCommand(int val);

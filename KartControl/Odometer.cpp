@@ -2,7 +2,7 @@
 
 
 
-Odometer::Odometer(int pin): pin(pin){
+Odometer::Odometer(int pin, int powerPin): pin(pin), powerPin(powerPin){
     toothPresent = false;
     updateTime = 0;
     count = 0;
