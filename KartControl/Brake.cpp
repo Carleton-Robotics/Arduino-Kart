@@ -23,16 +23,20 @@ void Brake::updateReading(){
 void Brake::updateCommand(int target){
     target = map(target, 0, 255, endOfTravelValue, startOfTravelValue);
     if (sqrt(sq(target - state)) < 10){
-        digitalWrite(control1,HIGH);
-        digitalWrite(control2,HIGH);
+        digitalWrite(control1, HIGH);
+        digitalWrite(control2, HIGH);
 
     }
     else if (target > state){
-        digitalWrite(control1,LOW);
-        digitalWrite(control2,HIGH);
+        digitalWrite(control1, LOW);
+        digitalWrite(control2, HIGH);
     }
     else if(target < state){
         digitalWrite(control1, HIGH);
         digitalWrite(control2, LOW);
     }
+}
+void Brake::eStop(){
+    digitalWrite(control1, HIGH);
+    digitalWrite(control2, HIGH);
 }

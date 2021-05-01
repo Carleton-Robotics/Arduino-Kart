@@ -1,15 +1,16 @@
 #include "Bluetooth.h"
 #include <Arduino.h>
 
-Bluetooth::Bluetooth(HardwareSerial serial, int modePin, int powerPin, void (*E_STOP)(void), HardwareSerial &Serial)
-  Adafruit_BluefruitLE_UART(serial), 
+Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int powerPin, int groundPin, HardwareSerial Serial):
+  Adafruit_BluefruitLE_UART(bleSerial), 
   modePin(modePin), 
   powerPin(powerPin),
   groundPin(groundPin),
-  STOP(E_STOP){
+  serial(Serial){
 }
 
-void Bluetooth::begin(){
+void Bluetooth::begin(void (*eStop)(void)){
+  eStop = eStop;
   pinMode(powerPin, OUTPUT);
   pinMode(modePin, OUTPUT);
   pinMode(groundPin, OUTPUT);
@@ -26,7 +27,7 @@ void Bluetooth::connect(){
   }
   serial.println("CONNECTED");
   digitalWrite(modePin, LOW);
-};
+}
 void Bluetooth::updateValues(){
   if(Adafruit_BluefruitLE_UART::isConnected()){
     while(Adafruit_BluefruitLE_UART::available() >= RECIEVED_PACKET_SIZE){
@@ -35,19 +36,18 @@ void Bluetooth::updateValues(){
       }
     }
   } else {
-    //E-Stop
-    STOP();
+    eStop();
     connect();
   }
 }
 int Bluetooth::getThrottle(){
-  return packet[0];
+  return packet[THROTTLE_INDEX];
 }
 int Bluetooth::getWheel(){
-  return packet[1];
+  return packet[WHEEL_INDEX];
 }
 int Bluetooth::getBrake(){
-  return packet[2];
+  return packet[BRAKE_INDEX];
 }
 void Bluetooth::send(char a, char b, char c){ //Up to 20 parameters can be added
   char toSend[] = {a, b, c, '\0'}; //Must add new variables to array

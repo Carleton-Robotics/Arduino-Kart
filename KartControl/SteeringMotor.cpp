@@ -3,7 +3,6 @@
 SteeringMotor::SteeringMotor(HardwareSerial *serial) : RoboClaw(serial, 10000){
   
 }
-
 void SteeringMotor::begin(){
   RoboClaw::begin(BAUD_RATE);
 }
@@ -15,4 +14,7 @@ bool SteeringMotor::goTo(uint32_t pos, uint32_t speed = DEFAULT_SPEED, uint32_t 
 uint32_t SteeringMotor::getPos(){
   //return RoboClaw::ReadEncM1(address);
   return map(RoboClaw::ReadEncM1(ADDRESS), ENCODER_MIN_VALUE, ENCODER_MAX_VALUE, 0, 255);
+}
+void SteeringMotor::eStop(){
+  RoboClaw::SpeedM1(ADDRESS, 0);
 }

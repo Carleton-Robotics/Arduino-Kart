@@ -14,5 +14,5 @@ public:
 
     void updateCommand(int val);
     void updateReading();
-    void throttleEStop();
+    void eStop();
 };

@@ -15,4 +15,5 @@ public:
     void begin();
     void updateReading();
     void updateCommand(int target);
+    void eStop();
 };

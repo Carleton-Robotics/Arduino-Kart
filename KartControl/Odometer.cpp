@@ -1,7 +1,5 @@
 #include "Odometer.h"
 
-
-
 Odometer::Odometer(int pin, int powerPin): pin(pin), powerPin(powerPin){
     toothPresent = false;
     updateTime = 0;
@@ -32,7 +30,7 @@ void Odometer::updateReading() {
         count = 0;
     }
 }
-float Odometer::getFloatValue() {
+double Odometer::getActualValue() {
     return state;
 }
 char Odometer::getValue() {

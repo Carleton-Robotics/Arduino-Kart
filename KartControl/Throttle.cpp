@@ -12,6 +12,7 @@ void Throttle::begin(){
 }
 
 void Throttle::updateCommand(int val) { //0-255
+    val = 255 - val;
     if (val > 0) {
         digiPot.writeWiper(val);
         digitalWrite(switchPin, HIGH);
@@ -25,6 +26,6 @@ void Throttle::updateReading() {
     state = digiPot.readWiper();
 }
 
-void Throttle::throttleEStop() {
-    updateCommand(0);
+void Throttle::eStop() {
+    updateCommand(255);
 }
