@@ -7,6 +7,7 @@
     // Rx1 = 19
 
 // SteeringMotor
+#define LimitSwitchPin 0
 // Serial2
     // Tx2 = 16
     // Rx2 = 17

@@ -9,7 +9,7 @@
 
 //Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothPowerPin, BluetoothGroundPin, Serial);
 
-SteeringMotor steeringMotor(Serial2);
+SteeringMotor steeringMotor(Serial2, LimitSwitchPin);
 
 // Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin, BrakePowerPin);
 

@@ -1,10 +1,11 @@
 #include "SteeringMotor.h"
 
-SteeringMotor::SteeringMotor(HardwareSerial serial) : RoboClaw(&serial, 10000){
+SteeringMotor::SteeringMotor(HardwareSerial serial, int limitSwitchPin) : RoboClaw(&serial, 10000), limitSwitchPin(limitSwitchPin){
   
 }
 void SteeringMotor::begin(){
   RoboClaw::begin(BAUD_RATE);
+  pinMode(limitSwitchPin, OUTPUT);
 }
 // TODO Postition values should be mapped from 0 to 255
 bool SteeringMotor::goTo(uint32_t pos, uint32_t speed = DEFAULT_SPEED, uint32_t accel = DEFAULT_ACCEL, uint32_t decel = DEFAULT_DECEL){
@@ -23,5 +24,9 @@ void SteeringMotor::forward(uint32_t speed){
   RoboClaw::ForwardM1(ADDRESS, speed);
 }
 void SteeringMotor::home(){
-  
+  while(!digitalRead(limitSwitchPin)){
+    RoboClaw::ForwardM1(ADDRESS, HOME_SPEED);
+  }
+  RoboClaw::ForwardM1(ADDRESS, 0);
+  RoboClaw::SetEncM1(ADDRESS, 0);
 }
