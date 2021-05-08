@@ -5,11 +5,11 @@
 #include "Brake.h"
 #include "Odometer.h"
 #include "Throttle.h"
-
-
+#include <SoftwareSerial.h>
 //Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothPowerPin, BluetoothGroundPin, Serial);
 
-SteeringMotor steeringMotor(Serial2, LimitSwitchPin);
+SoftwareSerial steeringSerial = SoftwareSerial(10, 11);
+SteeringMotor steeringMotor(steeringSerial);
 
 // Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin, BrakePowerPin);
 
@@ -18,7 +18,7 @@ SteeringMotor steeringMotor(Serial2, LimitSwitchPin);
 // Throttle throttle(ThrottleSwitchPin, ThrottlePowerPin);
 
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   // while(!Serial){
   //   delay(10);
   // }
@@ -28,16 +28,14 @@ void setup() {
   steeringMotor.begin();
   //bluetooth.begin(eStop);
   //bluetooth.connect();
-  delay(1000);
-  steeringMotor.forward(128);
+  delay(2000);
   //test();
-  //steeringTest();
+  steeringTest();
 }
 
 void loop() {
   //updateStateVariables();
   //updateCommands();
-  while(true){}
 }
 
 //this is where you make sure the object state variables are set to the correct values
@@ -112,6 +110,8 @@ void steeringTest(){
   Serial.println("2000");
   steeringMotor.goTo(2000);
   delay(1000);
+  Serial.println("0");
+  steeringMotor.goTo(0);
 }
 
 // void brakeTest(){
