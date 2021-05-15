@@ -15,7 +15,7 @@ class Odometer{
     static const int interval = 1; //Seconds between updates
     static const double pi = 3.1415926535897932384626433832795;
     static const double ODOMETER_MIN_VALUE = 0;
-    static const double ODOMETER_MAX_VALUE = 500;
+    static const double ODOMETER_MAX_VALUE = 60;
 
   public:
     double state;

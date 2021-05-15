@@ -17,21 +17,22 @@ void Brake::begin(){
 
 
 void Brake::updateReading(){
-    state = map(analogRead(pot), startOfTravelValue, endOfTravelValue, 0, 255);
+    state = analogRead(pot);
 }
 
 void Brake::updateCommand(int target){
-    target = map(target, 0, 255, endOfTravelValue, startOfTravelValue);
-    if (sqrt(sq(target - state)) < 10){
-        digitalWrite(control1, HIGH);
-        digitalWrite(control2, HIGH);
+    updateReading();
+    target = map(target, 0, 255, startOfTravelValue, endOfTravelValue);
+    if (abs(target - state) < 10){
+        digitalWrite(control1, LOW);
+        digitalWrite(control2, LOW);
 
     }
-    else if (target > state){
+    else if (target < state){ //Backwards Less Brake
         digitalWrite(control1, LOW);
         digitalWrite(control2, HIGH);
     }
-    else if(target < state){
+    else if(target > state){ //Forwards More Brake
         digitalWrite(control1, HIGH);
         digitalWrite(control2, LOW);
     }

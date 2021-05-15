@@ -3,13 +3,14 @@
 
 class SteeringMotor : public RoboClaw{
 public:
-  SteeringMotor(SoftwareSerial& serial);
+  SteeringMotor(HardwareSerial& serial);
   void begin();
   bool goTo(uint32_t pos, uint32_t speed = DEFAULT_SPEED, uint32_t accel = DEFAULT_ACCEL, uint32_t decel = DEFAULT_DECEL);
   uint32_t getPos();
   uint32_t getRealPos();
   bool forward(uint32_t speed);
   void eStop();
+  uint32_t readEncoder();
 
 private:
   int limitSwitchPin;

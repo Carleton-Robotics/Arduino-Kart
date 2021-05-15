@@ -8,34 +8,36 @@
 #include <SoftwareSerial.h>
 //Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothPowerPin, BluetoothGroundPin, Serial);
 
-SoftwareSerial steeringSerial = SoftwareSerial(10, 11);
-SteeringMotor steeringMotor(steeringSerial);
+SteeringMotor steeringMotor(Serial2);
 
-// Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin, BrakePowerPin);
+//Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin, BrakePowerPin);
 
 // Odometer odometer(OdometerPin, OdometerPowerPin);
 
-// Throttle throttle(ThrottleSwitchPin, ThrottlePowerPin);
+//Throttle throttle(ThrottleSwitchPin, ThrottlePowerPin);
 
 void setup() {
-  Serial.begin(9600);
-  // while(!Serial){
-  //   delay(10);
-  // }
-  // brake.begin();
+  // Serial.begin(9600);
+  //digitalWrite(13,HIGH);
+  //brake.begin();
   // odometer.begin();
-  // throttle.begin();
+  //throttle.begin();
   steeringMotor.begin();
   //bluetooth.begin(eStop);
   //bluetooth.connect();
-  delay(2000);
-  //test();
+  //delay(2000);
+  //brakeTest();
+  // digitalWrite(BrakePin1, HIGH);
+  // digitalWrite(BrakePin2, LOW);
   steeringTest();
 }
 
 void loop() {
   //updateStateVariables();
   //updateCommands();
+
+  // Serial.println(analogRead(A1));
+  //brake.updateCommand(0);
 }
 
 //this is where you make sure the object state variables are set to the correct values
@@ -88,42 +90,14 @@ void loop() {
 //   // brakeTest();
 // }
 
-// void throttleTest(){
-//   Serial.println("Throttle Test");
-//   throttle.updateCommand(0);
-
-//   delay(1000);
-
-//   for(int i = 0; i <= 127; i++){
-//     throttle.updateCommand(i);
-//     delay(25);
-//   }
-//   delay(200);
-//   for(int i = 127; i >= 0; i--){
-//     throttle.updateCommand(i);
-//     delay(25);
-//   }
-// }
 
 void steeringTest(){
-  Serial.println("Steering Test");
-  Serial.println("2000");
-  steeringMotor.goTo(2000);
+  steeringMotor.goTo(2000, 1000);
   delay(1000);
-  Serial.println("0");
-  steeringMotor.goTo(0);
+
+  steeringMotor.goTo(0, 1000);
+  delay(1000);
+  // Serial.println("-3000");
+  // steeringMotor.goTo(-3000);
 }
 
-// void brakeTest(){
-//   Serial.println("Brake Test");
-//   Serial.println("0");
-//   double start = millis();
-//   while(millis() - start < 10000){
-//     brake.updateCommand(0);
-//   }
-//   Serial.println(255);
-//   start = millis();
-//   while(millis() - start < 10000){
-//     brake.updateCommand(255);
-//   }
-// }

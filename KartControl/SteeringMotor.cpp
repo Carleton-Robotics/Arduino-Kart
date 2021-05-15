@@ -1,6 +1,6 @@
 #include "SteeringMotor.h"
 
-SteeringMotor::SteeringMotor(SoftwareSerial& serial) : RoboClaw(&serial, 10000){
+SteeringMotor::SteeringMotor(HardwareSerial& serial) : RoboClaw(&serial, 10000){
   
 }
 void SteeringMotor::begin(){
@@ -21,4 +21,7 @@ void SteeringMotor::eStop(){
 }
 bool SteeringMotor::forward(uint32_t speed){
   return RoboClaw::ForwardM1(ADDRESS, speed);
+}
+uint32_t SteeringMotor::readEncoder(){
+  return RoboClaw::ReadEncM1(ADDRESS);
 }
