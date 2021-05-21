@@ -1,12 +1,10 @@
 #include "Throttle.h"
 #include <Arduino.h>
-Throttle::Throttle(int switchPin, int powerPin) : digiPot(0x3C), switchPin(switchPin), powerPin(powerPin) {
+Throttle::Throttle(int switchPin) : digiPot(0x3C), switchPin(switchPin){
 }
 void Throttle::begin(){
     digiPot.begin();
     digiPot.writeWiper(0);
-    pinMode(powerPin, OUTPUT);
-    digitalWrite(powerPin, HIGH);
     pinMode(switchPin, OUTPUT);
     state = digiPot.readWiper();
 }

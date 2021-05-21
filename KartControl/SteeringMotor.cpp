@@ -25,3 +25,11 @@ bool SteeringMotor::forward(uint32_t speed){
 uint32_t SteeringMotor::readEncoder(){
   return RoboClaw::ReadEncM1(ADDRESS);
 }
+void SteeringMotor::home(){
+  RoboClaw::BackwardM1(ADDRESS, 20);
+  delay(8000);
+  RoboClaw::ForwardM1(ADDRESS, 0);
+  RoboClaw::ForwardM1(ADDRESS, 20);
+  delay(8000);
+  RoboClaw::ForwardM1(ADDRESS, 0);
+}

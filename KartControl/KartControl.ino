@@ -6,38 +6,42 @@
 #include "Odometer.h"
 #include "Throttle.h"
 #include <SoftwareSerial.h>
-//Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothPowerPin, BluetoothGroundPin, Serial);
+
+Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothGroundPin, Serial);
 
 SteeringMotor steeringMotor(Serial2);
 
-//Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin, BrakePowerPin);
+Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
 
-// Odometer odometer(OdometerPin, OdometerPowerPin);
+Odometer odometer(OdometerPin);
 
-//Throttle throttle(ThrottleSwitchPin, ThrottlePowerPin);
+Throttle throttle(ThrottleSwitchPin);
 
 void setup() {
-  // Serial.begin(9600);
-  //digitalWrite(13,HIGH);
-  //brake.begin();
-  // odometer.begin();
-  //throttle.begin();
-  steeringMotor.begin();
-  //bluetooth.begin(eStop);
+  pinMode(MiscPin, INPUT_PULLUP); //Control Box Switch
+  pinMode(3, OUTPUT);
+  digitalWrite(3, LOW);
+  Serial.begin(9600);
+  Serial.println("beforebegin");
+  // brake.begin();
+  odometer.begin();
+  Serial.println("before throttle");
+  throttle.begin();
+  // steeringMotor.begin();
+  // bluetooth.begin(eStop);
   //bluetooth.connect();
-  //delay(2000);
+
+  //steeringMotor.home();
+  //steeringTest();
   //brakeTest();
-  // digitalWrite(BrakePin1, HIGH);
-  // digitalWrite(BrakePin2, LOW);
-  steeringTest();
+  Serial.println("HI");
+  throttleTest();
 }
 
 void loop() {
   //updateStateVariables();
   //updateCommands();
-
-  // Serial.println(analogRead(A1));
-  //brake.updateCommand(0);
+  
 }
 
 //this is where you make sure the object state variables are set to the correct values
@@ -61,43 +65,52 @@ void loop() {
 //   throttle.updateCommand(bluetooth.getThrottle());
 // }
 
-// void printValues(){
-//   Serial.print("Odometer: ");
-//   Serial.print(odometer.getValue());
-//   Serial.print(" Steering Motor: ");
-//   Serial.println(steeringMotor.getPos());
-// }
-// void eStop(){
-//   throttle.eStop();
-//   steeringMotor.eStop();
-//   brake.eStop();
-// }
-
-
-
-
-
-
-
-
-/* -------TESTS--------*/
-// void test(){
-//   delay(1000);
-//   throttleTest();
-//   // delay(2000);
-//   // steeringTest();
-//   // delay(2000);
-//   // brakeTest();
-// }
-
-
-void steeringTest(){
-  steeringMotor.goTo(2000, 1000);
-  delay(1000);
-
-  steeringMotor.goTo(0, 1000);
-  delay(1000);
-  // Serial.println("-3000");
-  // steeringMotor.goTo(-3000);
+void printValues(){
+  Serial.print("Odometer: ");
+  Serial.print(odometer.getValue());
+  Serial.print(" Steering Motor: ");
+  Serial.println(steeringMotor.getPos());
+}
+void eStop(){
+  throttle.eStop();
+  steeringMotor.eStop();
+  brake.eStop();
 }
 
+void brakeTest(){
+  Serial.println();
+  Serial.println("BrakeTest");
+  Serial.println("255");
+  while(!brake.updateCommand(255)){
+    delay(1);
+  }
+  Serial.println("0");
+  while(!brake.updateCommand(0)){
+    delay(1);
+  }
+}
+
+void steeringTest(){
+  Serial.println();
+  Serial.println("SteeringTest");
+  steeringMotor.goTo(30000);
+  delay(2000);
+  steeringMotor.goTo(0);
+}
+
+void throttleTest(){
+  Serial.println();
+  Serial.println("Throttle Test");
+  double startTime = millis();
+  while(millis() - startTime < 10000){
+    throttle.updateCommand(127);
+    odometer.updateReading();
+    Serial.println(odometer.getValue());
+  }
+  startTime = millis();
+  while(millis() - startTime < 2000){
+    throttle.updateCommand(0);
+    odometer.updateReading();
+    Serial.println(odometer.getValue());
+  }
+}

@@ -1,21 +1,18 @@
 #include "Bluetooth.h"
 #include <Arduino.h>
 
-Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int powerPin, int groundPin, HardwareSerial Serial):
+Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, HardwareSerial Serial):
   Adafruit_BluefruitLE_UART(bleSerial), 
   modePin(modePin), 
-  powerPin(powerPin),
   groundPin(groundPin),
   serial(Serial){
 }
 
 void Bluetooth::begin(void (*eStop)(void)){
   eStop = eStop;
-  pinMode(powerPin, OUTPUT);
   pinMode(modePin, OUTPUT);
   pinMode(groundPin, OUTPUT);
   digitalWrite(groundPin, LOW);
-  digitalWrite(powerPin, HIGH);
   delay(500); //Might not be needed
   Adafruit_BluefruitLE_UART::begin();
 }

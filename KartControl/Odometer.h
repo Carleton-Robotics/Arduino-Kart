@@ -3,26 +3,21 @@
 class Odometer{
   private:
     bool toothPresent; 
-    unsigned long updateTime; //NOTE: potential for overflow after ~20 days
-    unsigned long count; //Note: potential for overflow after ~2billion teeth are read
-    double tps;
-    double rpm;
-    double ipm;
-    int hallValue;
+    unsigned long updateTime;
     int pin;
-    int powerPin;
+    int count;
 
-    static const int interval = 1; //Seconds between updates
+    double speed;
+
+    static const int interval = 200; //Seconds between updates
     static const double pi = 3.1415926535897932384626433832795;
     static const double ODOMETER_MIN_VALUE = 0;
     static const double ODOMETER_MAX_VALUE = 60;
 
   public:
-    double state;
-    Odometer(int pin, int powerPin);
+    Odometer(int pin);
     void begin();
 
     void updateReading();
-    double getActualValue();
-    char getValue();
+    double getValue();
 };

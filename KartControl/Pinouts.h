@@ -1,6 +1,5 @@
 // Bluetooth
 #define BluetoothModePin 23
-#define BluetoothPowerPin 2
 #define BluetoothGroundPin 3
 // Serial1
     // Tx1 = 18
@@ -12,20 +11,17 @@
     // Rx2 = 17
 
 // Throttle
-#define ThrottleSwitchPin 11
-#define ThrottlePowerPin 4
+#define ThrottleSwitchPin 12
 // I2C
     // SDA = 20
     // SCL = 21
 
 // Odometer
-#define OdometerPin 12
-#define OdometerPowerPin 13
+#define OdometerPin 13
 
 // Brake
 #define BrakePin1 8
 #define BrakePin2 9
 #define BrakePotentiometerPin A1
-#define BrakePowerPin 13
 
 #define MiscPin A0

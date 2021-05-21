@@ -16,7 +16,7 @@ class Bluetooth : public Adafruit_BluefruitLE_UART{
 public:
   // bleSerial is the serial connected to the bluetooth module
   // Serial is the main serial used for debugging
-  Bluetooth(HardwareSerial bleSerial, int powerPin, int modePin, int groundPin, HardwareSerial Serial);
+  Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, HardwareSerial Serial);
 
   // eStop should be the main emergency stop function
   // eStop will be called if the connection to the phone is lost
