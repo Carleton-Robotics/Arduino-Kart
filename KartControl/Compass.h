@@ -1,9 +1,16 @@
 #include <Arduino.h>
-#include <QMC5883LCompass.h>
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_HMC5883_U.h>
 
-class Compass : QMC5883LCompass{
+class Compass : Adafruit_HMC5883_Unified{
     public:
+
     Compass();
     void begin();
-    int getAzimuth();
+    float getHeading();
+
+    private:
+    
+    static const float declinationAngle = 0.00116355;
 };

@@ -5,6 +5,7 @@
 #include "Brake.h"
 #include "Odometer.h"
 #include "Throttle.h"
+#include "Compass.h"
 #include <SoftwareSerial.h>
 
 Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothGroundPin, Serial);
@@ -17,16 +18,19 @@ Odometer odometer(OdometerPin);
 
 Throttle throttle(ThrottleSwitchPin);
 
+Compass compass;
+
 void setup() {
   pinMode(MiscPin, INPUT_PULLUP); //Control Box Switch
   pinMode(3, OUTPUT);
   digitalWrite(3, LOW);
   Serial.begin(9600);
-  Serial.println("beforebegin");
   // brake.begin();
-  odometer.begin();
-  Serial.println("before throttle");
-  throttle.begin();
+  // odometer.begin();
+  // throttle.begin();
+  Serial.println("BeforeBegin");
+  compass.begin();
+  Serial.println("AfterBegin");
   // steeringMotor.begin();
   // bluetooth.begin(eStop);
   //bluetooth.connect();
@@ -34,14 +38,14 @@ void setup() {
   //steeringMotor.home();
   //steeringTest();
   //brakeTest();
-  Serial.println("HI");
-  throttleTest();
+  //throttleTest();
 }
 
 void loop() {
   //updateStateVariables();
   //updateCommands();
-  
+  Serial.println(compass.getHeading());
+  delay(500);
 }
 
 //this is where you make sure the object state variables are set to the correct values

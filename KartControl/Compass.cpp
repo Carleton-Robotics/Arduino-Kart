@@ -1,15 +1,21 @@
-#include <Arduino.h>
 #include "Compass.h"
 
-Compass::Compass() : QMC5883LCompass(){
+Compass::Compass() : Adafruit_HMC5883_Unified(12345){
 
 };
-
 void Compass::begin(){
-    QMC5883LCompass::init();
-}
+    Adafruit_HMC5883_Unified::begin();
+};
+float Compass::getHeading(){
+    sensors_event_t event;
+    Adafruit_HMC5883_Unified::getEvent(&event);
+    float heading = atan2(event.magnetic.y, event.magnetic.x);
+    heading += declinationAngle;
 
-int Compass::getAzimuth(){
-    QMC5883LCompass::read();
-    return QMC5883LCompass::getAzimuth();
-}
+    if(heading < 0 ) heading += 2*PI;
+    if(heading > 2*PI) heading -= 2*PI;
+
+    float headingDegrees = heading * 180/PI;
+
+    return headingDegrees;
+};
