@@ -6,7 +6,6 @@
 #include "Odometer.h"
 #include "Throttle.h"
 #include "Compass.h"
-#include <SoftwareSerial.h>
 
 Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothGroundPin, Serial);
 
@@ -24,66 +23,28 @@ void setup() {
   pinMode(MiscPin, INPUT_PULLUP); //Control Box Switch
   pinMode(3, OUTPUT);
   digitalWrite(3, LOW);
-  Serial.begin(9600);
-  // brake.begin();
-  // odometer.begin();
-  // throttle.begin();
-  Serial.println("BeforeBegin");
+  Serial.begin(115200);
+  brake.begin();
+  odometer.begin();
+  throttle.begin();
   compass.begin();
-  Serial.println("AfterBegin");
-  // steeringMotor.begin();
+  steeringMotor.begin();
   // bluetooth.begin(eStop);
-  //bluetooth.connect();
+  // bluetooth.connect();
 
-  //steeringMotor.home();
-  //steeringTest();
-  //brakeTest();
-  //throttleTest();
+  steeringMotor.home();
 }
 
 void loop() {
-  //updateStateVariables();
-  //updateCommands();
-  Serial.println(compass.getHeading());
-  delay(500);
 }
 
-//this is where you make sure the object state variables are set to the correct values
-// void updateStateVariables(){
-//   //Update each thing
-//   bluetooth.updateValues();
-//   brake.updateReading();
-//   throttle.updateReading();
-  
-//   //Print Values for Debugging
-//   printValues();
-
-//   //Send updated values to phone
-//   bluetooth.send(odometer.getValue(), steeringMotor.getPos(), 'A');
-// }
-
-// //here is where you update your demands for all of the kart peripherals.
-// void updateCommands(){
-//   brake.updateCommand(bluetooth.getBrake());
-//   steeringMotor.goTo(bluetooth.getWheel());
-//   throttle.updateCommand(bluetooth.getThrottle());
-// }
-
-void printValues(){
-  Serial.print("Odometer: ");
-  Serial.print(odometer.getValue());
-  Serial.print(" Steering Motor: ");
-  Serial.println(steeringMotor.getPos());
-}
 void eStop(){
-  throttle.eStop();
   steeringMotor.eStop();
   brake.eStop();
 }
 
 void brakeTest(){
-  Serial.println();
-  Serial.println("BrakeTest");
+  Serial.println("Brake Test");
   Serial.println("255");
   while(!brake.updateCommand(255)){
     delay(1);
@@ -94,27 +55,26 @@ void brakeTest(){
   }
 }
 
-void steeringTest(){
-  Serial.println();
-  Serial.println("SteeringTest");
-  steeringMotor.goTo(30000);
-  delay(2000);
-  steeringMotor.goTo(0);
+void throttleTest(){
+  Serial.println("Throttle Test");
+  throttle.updateCommand(64);
+  while(odometer.getTicks() < 100){
+    odometer.updateReading();
+  }
+  throttle.updateCommand(0);
 }
 
-void throttleTest(){
-  Serial.println();
-  Serial.println("Throttle Test");
-  double startTime = millis();
-  while(millis() - startTime < 10000){
+void square(){
+  for(int i = 0; i < 4; i++){
+    unsigned long initialTicks = odometer.getTicks();
     throttle.updateCommand(127);
-    odometer.updateReading();
-    Serial.println(odometer.getValue());
-  }
-  startTime = millis();
-  while(millis() - startTime < 2000){
-    throttle.updateCommand(0);
-    odometer.updateReading();
-    Serial.println(odometer.getValue());
+    while(odometer.getTicks() - initialTicks < 1000){
+      odometer.updateReading();
+    }
+    double starting = compass.getHeading();
+    steeringMotor.goTo(255);
+    while(abs(starting - compass.getHeading()) < 90){
+    }
+    steeringMotor.goTo(127);
   }
 }
