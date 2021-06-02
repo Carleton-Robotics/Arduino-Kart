@@ -8,9 +8,15 @@ class Compass : Adafruit_HMC5883_Unified{
 
     Compass();
     void begin();
-    float getHeading();
+    int getHeading();
+    int getAngle();
+    void update();
 
     private:
     
-    static const float declinationAngle = 0.00116355;
+    int heading;
+    int previousHeading;
+    int totalAngle;
+
+    int getDifference(int current, int previous);
 };

@@ -1,11 +1,7 @@
 #include "Brake.h"
 
 Brake::Brake(int controlPin1, int controlPin2, int potentiometerPin) : control1(controlPin1), control2(controlPin2), pot(potentiometerPin){
-    //state = 100 - map(analogRead(pot), startOfTravelValue, endOfTravelValue, 0, 100);
-
-    //updateCommand(0);
-
-    //initialize pins for control and potentiometer, set to zero-brakes condition,
+    
 }
 void Brake::begin(){
     pinMode(control1, OUTPUT);

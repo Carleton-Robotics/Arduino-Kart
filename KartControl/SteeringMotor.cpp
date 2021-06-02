@@ -8,10 +8,11 @@ void SteeringMotor::begin(){
 }
 // TODO Postition values should be mapped from 0 to 255
 bool SteeringMotor::goTo(uint32_t pos, uint32_t speed = DEFAULT_SPEED, uint32_t accel = DEFAULT_ACCEL, uint32_t decel = DEFAULT_DECEL){
+  pos = map(pos, 0, 255, 0, encoderMax);
   return RoboClaw::SpeedAccelDeccelPositionM1(ADDRESS, accel, speed, decel, pos, 1);
 }
 uint32_t SteeringMotor::getPos(){
-  return map(RoboClaw::ReadEncM1(ADDRESS), ENCODER_MIN_VALUE, ENCODER_MAX_VALUE, 0, 255);
+  return map(RoboClaw::ReadEncM1(ADDRESS), 0, encoderMax, 0, 255);
 }
 uint32_t SteeringMotor::getRealPos(){
   return RoboClaw::ReadEncM1(ADDRESS);
@@ -26,10 +27,11 @@ uint32_t SteeringMotor::readEncoder(){
   return RoboClaw::ReadEncM1(ADDRESS);
 }
 void SteeringMotor::home(){
-  RoboClaw::BackwardM1(ADDRESS, 20);
+  RoboClaw::BackwardM1(ADDRESS, HOME_SPEED);
   delay(8000);
   RoboClaw::ForwardM1(ADDRESS, 0);
-  RoboClaw::ForwardM1(ADDRESS, 20);
+  RoboClaw::ForwardM1(ADDRESS, HOME_SPEED);
   delay(8000);
   RoboClaw::ForwardM1(ADDRESS, 0);
+  encoderMax = readEncoder();
 }

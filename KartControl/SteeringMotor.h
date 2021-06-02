@@ -14,6 +14,7 @@ public:
   void home();
 private:
   int limitSwitchPin;
+  int encoderMax;
 
   static const uint32_t DEFAULT_SPEED = 100000;
   static const uint32_t DEFAULT_ACCEL = 100000;
@@ -22,8 +23,5 @@ private:
   static const int ADDRESS = 0x80;
   static const int BAUD_RATE = 38400;
 
-  static const int ENCODER_MIN_VALUE = 0;
-  static const int ENCODER_MAX_VALUE = 2000;
-
-  static const int HOME_SPEED = 64;
+  static const int HOME_SPEED = 40;
 };

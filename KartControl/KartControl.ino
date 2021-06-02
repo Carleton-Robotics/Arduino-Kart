@@ -33,9 +33,14 @@ void setup() {
   // bluetooth.connect();
 
   steeringMotor.home();
+  steeringMotor.goTo(127);
+  delay(1000);
+  square();
+  //throttleTest();
 }
 
 void loop() {
+  brake.updateCommand(0);
 }
 
 void eStop(){
@@ -57,24 +62,24 @@ void brakeTest(){
 
 void throttleTest(){
   Serial.println("Throttle Test");
-  throttle.updateCommand(64);
-  while(odometer.getTicks() < 100){
-    odometer.updateReading();
+  throttle.setSpeed(64);
+  while(odometer.getDistance() < 5){
+    odometer.update();
   }
-  throttle.updateCommand(0);
+  throttle.setSpeed(0);
 }
 
 void square(){
-  for(int i = 0; i < 4; i++){
-    unsigned long initialTicks = odometer.getTicks();
-    throttle.updateCommand(127);
-    while(odometer.getTicks() - initialTicks < 1000){
-      odometer.updateReading();
+    unsigned long initialDistance = odometer.getDistance();
+    throttle.setSpeed(64);
+    while(odometer.getDistance() - initialDistance < 5){
+      odometer.update();
     }
-    double starting = compass.getHeading();
     steeringMotor.goTo(255);
-    while(abs(starting - compass.getHeading()) < 90){
+    initialDistance = odometer.getDistance();
+    while(odometer.getDistance() - initialDistance < 5){
+      odometer.update();
     }
     steeringMotor.goTo(127);
-  }
+  throttle.setSpeed(0);
 }

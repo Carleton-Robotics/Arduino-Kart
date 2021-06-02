@@ -3,11 +3,9 @@
 class Odometer{
   private:
     bool toothPresent; 
-    unsigned long updateTime;
     int pin;
-    int count;
+    unsigned long count;
 
-    double speed;
 
     static const int interval = 200; //Seconds between updates
     static const double pi = 3.1415926535897932384626433832795;
@@ -16,6 +14,6 @@ class Odometer{
     Odometer(int pin);
     void begin();
 
-    void updateReading();
-    double getValue();
+    void update();
+    float getDistance();
 };
