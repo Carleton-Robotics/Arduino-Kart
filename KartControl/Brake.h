@@ -1,6 +1,3 @@
-
-#ifndef ARDUINO_KART_BRAKE_H
-#define ARDUINO_KART_BRAKE_H
 #include <Arduino.h>
 
 class Brake {
@@ -8,14 +5,13 @@ private:
     int control1;
     int control2;
     int pot;
-    int endOfTravelValue;
-    int startOfTravelValue;
+    static const int startOfTravelValue = 145;
+    static const int endOfTravelValue = 520;
 public:
     int state;
-    Brake(int controlPin1,int controlPin2, int potentiometerPin);
+    Brake(int controlPin1, int controlPin2, int potentiometerPin);
 
-    void updateReading();
-    void updateCommand(int target);
+    void begin();
+    bool updateCommand(int target);
+    void eStop();
 };
-
-#endif //ARDUINO_KART_BRAKE_H

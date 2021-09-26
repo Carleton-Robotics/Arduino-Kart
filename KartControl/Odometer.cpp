@@ -1,38 +1,24 @@
 #include "Odometer.h"
+#include <Arduino.h>
 
-
-
-Odometer::Odometer(int pin)
-{
-    // put your setup code here, to run once:
+Odometer::Odometer(int pin): pin(pin){
     toothPresent = false;
-    interval = 1; // seconds between updates
-    updateTime = 0;
     count = 0;
-    pi = 3.1415926535897932384626433832795;
-    state = 0;
-    //Serial.begin(9600); I think this is redundant now?
-    pin = pin;
+}
+void Odometer::begin(){
     pinMode(pin, INPUT_PULLUP);
 }
 
-void Odometer::updateReading() {
-    // put your main code here, to run repeatedly:
-    hallValue = digitalRead(5);
+void Odometer::update() {
+    int hallValue = digitalRead(pin);
     if (toothPresent == false && hallValue == 0) {
         toothPresent = true;
-        count+=1;
+        count += 1;
     }
-    else if (toothPresent == true && hallValue != 0) {
+    else if (toothPresent == true && hallValue == 1) {
         toothPresent = false;
-        count+=1;
     }
-    if (millis() >= updateTime) {
-        updateTime += interval*1000;
-        tps = count/interval/2;
-        rpm = tps/45*60; //(there are 45 teeth)
-        ipm = rpm*2*3.8125*pi; //(ipm stands for inches per minute. 3.8125 in is the radius of the gear)
-        state = ipm * 9.47/pow(10,4);
-        count = 0;
-    }
+}
+float Odometer::getDistance() {
+    return count*2/100;
 }

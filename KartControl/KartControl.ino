@@ -1,54 +1,85 @@
+#include <Arduino.h>
+#include "Pinouts.h"
 #include "Bluetooth.h"
+#include "SteeringMotor.h"
+#include "Brake.h"
 #include "Odometer.h"
 #include "Throttle.h"
-#include "Brake.h"
-#include "Wheel.h"
+#include "Compass.h"
 
-#define ODOMETER_PIN 5
-#define THROTTLE_SWITCH_PIN 6
-#define WHEEL_CONTROL_PIN 7
-//this code is basically a switching yard for information between the kart and the phone
-Odometer odometer(ODOMETER_PIN);
-Throttle throttle(THROTTLE_SWITCH_PIN);//note the I2C pins are hardcoded into the library we are extending for the digipot
-//SteeringMotor wheel(WHEEL_CONTROL_PIN);
-//Brake brake(controlPin1 = ,controlPin2 = ,potentiometerPin = ,endOfTravelValue = );
+Bluetooth bluetooth(Serial1, BluetoothModePin, BluetoothGroundPin, Serial);
+
+SteeringMotor steeringMotor(Serial2);
+
+Brake brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
+
+Odometer odometer(OdometerPin);
+
+Throttle throttle(ThrottleSwitchPin);
+
+Compass compass;
 
 void setup() {
-  // put your setup code here, to run once:
-  // This space intentionally left blank
-  Serial.begin(9600);
-  
+  pinMode(MiscPin, INPUT_PULLUP); //Control Box Switch
+  pinMode(3, OUTPUT);
+  digitalWrite(3, LOW);
+  Serial.begin(115200);
+  brake.begin();
+  odometer.begin();
+  throttle.begin();
+  compass.begin();
+  steeringMotor.begin();
+  // bluetooth.begin(eStop);
+  // bluetooth.connect();
+
+  steeringMotor.home();
+  steeringMotor.goTo(127);
+  delay(1000);
+  square();
+  //throttleTest();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  // This space intentionally left blank
-  updateStateVariables();
-  updateCommands();
+  brake.updateCommand(0);
 }
 
-//this is where you make sure the object state variables are set to the correct values
-void updateStateVariables(){
-  
-  odometer.updateReading();
-  throttle.updateReading();
-//  wheel.updateReading();
-//  brake.updateReading();
+void eStop(){
+  steeringMotor.eStop();
+  brake.eStop();
 }
 
-//here is where you update your demands for all of the kart peripherals. Each function takes a 0-1000 which is mapped to required range in classes integer input
-void updateCommands(){
-  throttle.updateCommand(100);
-//  wheel.updateCommand(100);
-//  brake.updateCommand(500);
+void brakeTest(){
+  Serial.println("Brake Test");
+  Serial.println("255");
+  while(!brake.updateCommand(255)){
+    delay(1);
+  }
+  Serial.println("0");
+  while(!brake.updateCommand(0)){
+    delay(1);
+  }
 }
-  
-  
 
+void throttleTest(){
+  Serial.println("Throttle Test");
+  throttle.setSpeed(64);
+  while(odometer.getDistance() < 5){
+    odometer.update();
+  }
+  throttle.setSpeed(0);
+}
 
-/*
- * Every Loop we should
- * update kart values
- * read new commands
- * send new variable vals
- */
+void square(){
+    unsigned long initialDistance = odometer.getDistance();
+    throttle.setSpeed(64);
+    while(odometer.getDistance() - initialDistance < 5){
+      odometer.update();
+    }
+    steeringMotor.goTo(255);
+    initialDistance = odometer.getDistance();
+    while(odometer.getDistance() - initialDistance < 5){
+      odometer.update();
+    }
+    steeringMotor.goTo(127);
+  throttle.setSpeed(0);
+}

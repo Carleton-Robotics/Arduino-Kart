@@ -1,14 +1,15 @@
 #include "Throttle.h"
 #include <Arduino.h>
-Throttle::Throttle(int switchPin) : digiPot(0x3C) {
+Throttle::Throttle(int switchPin) : digiPot(0x3C), switchPin(switchPin){
+}
+void Throttle::begin(){
     digiPot.begin();
     digiPot.writeWiper(0);
-    switchPin = switchPin;
     pinMode(switchPin, OUTPUT);
-    state = digiPot.readWiper();
 }
 
-void Throttle::updateCommand(int val) {//0-255
+void Throttle::setSpeed(int val) { //0-255
+    val = 255 - val;
     if (val > 0) {
         digiPot.writeWiper(val);
         digitalWrite(switchPin, HIGH);
@@ -18,10 +19,6 @@ void Throttle::updateCommand(int val) {//0-255
     }
 }
 
-void Throttle::updateReading() {
-    state = digiPot.readWiper();
-}
-
-void Throttle::throttleEStop() {
-    updateCommand(0);
+void Throttle::eStop() {
+    setSpeed(0);
 }

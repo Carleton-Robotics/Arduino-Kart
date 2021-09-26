@@ -1,27 +1,19 @@
-
-#ifndef ARDUINO_KART_ODOMETER_H
-#define ARDUINO_KART_ODOMETER_H
 #include <Arduino.h>
 
-class Odometer
-{
-  
+class Odometer{
   private:
     bool toothPresent; 
-    float interval;
-    long updateTime;//NOTE: potential for overflow after ~20 days
-    long count;//Note: potential for overflow after ~2billion teeth are read
-    float pi;
-    float tps;
-    float rpm;
-    float ipm;
-    int hallValue;
     int pin;
+    unsigned long count;
+
+
+    static const int interval = 200; //Seconds between updates
+    static const double pi = 3.1415926535897932384626433832795;
+
   public:
-    float state;
     Odometer(int pin);
+    void begin();
 
-    void updateReading();
+    void update();
+    float getDistance();
 };
-
-#endif //ARDUINO_KART_ODOMETER_H

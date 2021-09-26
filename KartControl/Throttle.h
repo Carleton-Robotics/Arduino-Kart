@@ -1,9 +1,5 @@
-
-#ifndef ARDUINO_KART_THROTTLE_H
-#define ARDUINO_KART_THROTTLE_H
-
 #include <Arduino.h>
-#include "MCP45HVX1.h"
+#include <MCP45HVX1.h>
 
 class Throttle {
 private:
@@ -11,11 +7,9 @@ private:
     int switchPin;
 
 public:
-    int state;
     Throttle(int switchPin);
+    void begin();
 
-    void updateCommand(int val);
-    void updateReading();
-    void throttleEStop();
+    void setSpeed(int val);
+    void eStop();
 };
-#endif //ARDUINO_KART_THROTTLE_H

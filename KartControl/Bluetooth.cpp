@@ -1,34 +1,52 @@
 #include "Bluetooth.h"
+#include <Arduino.h>
 
-void Bluetooth::begin(){
-    pinMode(12, OUTPUT);
-    ble->begin();
-    ble->info();
-};
+Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, HardwareSerial Serial):
+  Adafruit_BluefruitLE_UART(bleSerial), 
+  modePin(modePin), 
+  groundPin(groundPin),
+  serial(Serial){
+}
+
+void Bluetooth::begin(void (*eStop)(void)){
+  eStop = eStop;
+  pinMode(modePin, OUTPUT);
+  pinMode(groundPin, OUTPUT);
+  digitalWrite(groundPin, LOW);
+  delay(500); //Might not be needed
+  Adafruit_BluefruitLE_UART::begin();
+}
 void Bluetooth::connect(){
-    digitalWrite(12, HIGH);
-    while(!ble->isConnected()){
-        delay(500);
-    }
-    digitalWrite(12, LOW);
-};
+  digitalWrite(modePin, HIGH);
+  serial.println("Waiting For Connection...");
+  while(!Adafruit_BluefruitLE_UART::isConnected()){
+    delay(50);
+  }
+  serial.println("CONNECTED");
+  digitalWrite(modePin, LOW);
+}
 void Bluetooth::updateValues(){
-    while(ble->available() >= receivedPacketSize){
-        for(int i = 0; i < receivedPacketSize; i++){
-            packet[i] = ble->read();
-        }
+  if(Adafruit_BluefruitLE_UART::isConnected()){
+    while(Adafruit_BluefruitLE_UART::available() >= RECIEVED_PACKET_SIZE){
+      for(int i = 0; i < RECIEVED_PACKET_SIZE; i++){
+        packet[i] = Adafruit_BluefruitLE_UART::read();
+      }
     }
-};
+  } else {
+    eStop();
+    connect();
+  }
+}
 int Bluetooth::getThrottle(){
-    return packet[0];
+  return packet[THROTTLE_INDEX];
 }
 int Bluetooth::getWheel(){
-    return packet[1];
+  return packet[WHEEL_INDEX];
 }
 int Bluetooth::getBrake(){
-    return packet[2];
+  return packet[BRAKE_INDEX];
 }
-void Bluetooth::send(char a, char b, char c){ //Up to 20 parameters can be addes
-    char toSend[] = {a, b, c, '\0'}; //Must add new variables to array
-    ble->write(toSend); //Phone code must know the number of variables to expect
+void Bluetooth::send(char a, char b, char c){ //Up to 20 parameters can be added
+  char toSend[] = {a, b, c, '\0'}; //Must add new variables to array
+  Adafruit_BluefruitLE_UART::write(toSend); //Phone code must know the number of variables to expect
 }
