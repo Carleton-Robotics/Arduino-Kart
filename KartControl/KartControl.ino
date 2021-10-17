@@ -35,13 +35,19 @@ void setup() {
   steeringMotor.home();
   steeringMotor.goTo(127);
   delay(1000);
-  square();
   //throttleTest();
 }
 
 void loop() {
-  brake.updateCommand(0);
+  odometerTest();
 }
+
+void odometerTest(){
+  throttle.setSpeed(64);
+  odometer.update();
+  Serial.println(odometer.getSpeed());
+}
+
 
 void eStop(){
   steeringMotor.eStop();
@@ -66,20 +72,5 @@ void throttleTest(){
   while(odometer.getDistance() < 5){
     odometer.update();
   }
-  throttle.setSpeed(0);
-}
-
-void square(){
-    unsigned long initialDistance = odometer.getDistance();
-    throttle.setSpeed(64);
-    while(odometer.getDistance() - initialDistance < 5){
-      odometer.update();
-    }
-    steeringMotor.goTo(255);
-    initialDistance = odometer.getDistance();
-    while(odometer.getDistance() - initialDistance < 5){
-      odometer.update();
-    }
-    steeringMotor.goTo(127);
   throttle.setSpeed(0);
 }

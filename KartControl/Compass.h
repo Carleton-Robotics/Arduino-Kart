@@ -12,11 +12,17 @@ class Compass : Adafruit_HMC5883_Unified{
     int getAngle();
     void update();
 
+    double getX();
+    double getY();
+
     private:
     
     int heading;
     int previousHeading;
     int totalAngle;
+
+    double xVal;
+    double yVal;
 
     int getDifference(int current, int previous);
 };
