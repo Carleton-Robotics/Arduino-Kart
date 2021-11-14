@@ -4,26 +4,30 @@ class Odometer{
   private:
     bool toothPresent; 
     int pin;
+    unsigned long totalCount;
     unsigned long count;
 
     unsigned long previousTime;
 
-    double timeConstant = 1;
+    double timeConstant = 50000;
 
     double speed;
 
+    const double distanceConversionFactor = 0.0248;
+    const double speedConversionFactor = 24800; //tick per ms to m per s
+
     void updateSpeed(int ticks);
-
-
-    static const int interval = 200; //Seconds between updates
-    static const double pi = 3.1415926535897932384626433832795;
 
   public:
     Odometer(int pin);
     void begin();
 
-    void update();
-    float getDistance();
+    void countTick();
 
+    void update();
+    double getDistanceT();
+    double getDistance();
+
+    double getSpeedTPMS();
     double getSpeed();
 };

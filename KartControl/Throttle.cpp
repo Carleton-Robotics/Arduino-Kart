@@ -8,7 +8,17 @@ void Throttle::begin(){
     pinMode(switchPin, OUTPUT);
 }
 
+void Throttle::setSpeedMPS(int val){
+    setSpeed(map(val, MAXSPEED, MINSPEED, 0, 255));
+}
+
 void Throttle::setSpeed(int val) { //0-255
+    if(val < 0){
+        val = 0;
+    }
+    if(val > 128){
+        val = 128;
+    }
     val = 255 - val;
     if (val > 0) {
         digiPot.writeWiper(val);

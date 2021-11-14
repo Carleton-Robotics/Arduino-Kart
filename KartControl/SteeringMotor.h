@@ -12,6 +12,7 @@ public:
   void eStop();
   uint32_t readEncoder();
   void home();
+  
 private:
   int limitSwitchPin;
   int encoderMax;

@@ -4,40 +4,44 @@
 Odometer::Odometer(int pin): pin(pin){
     toothPresent = false;
     count = 0;
+    totalCount = 0;
+    previousTime = 0;
 }
 
 void Odometer::begin(){
     pinMode(pin, INPUT_PULLUP);
+    countTick();
+}
+
+void Odometer::countTick(){
+    totalCount += 1;
+    count += 1;
 }
 
 void Odometer::update() {
-    int hallValue = digitalRead(pin);
-    if (toothPresent == false && hallValue == 0) {
-        toothPresent = true;
-        updateSpeed(1);
-        count += 1;
-    }
-    else if (toothPresent == true && hallValue == 1) {
-        toothPresent = false;
-        updateSpeed(0);
-    }
-    else{
-        updateSpeed(0);
-    }
+    updateSpeed(count);
+    count = 0;
 }
 
-float Odometer::getDistance() {
-    return count * 2 / 100;
+double Odometer::getDistance() {
+    return totalCount * distanceConversionFactor;
+}
+
+double Odometer::getDistanceT() {
+    return totalCount;
 }
 
 void Odometer::updateSpeed(int ticks) {
-    unsigned long currentTime = millis();
+    unsigned long currentTime = micros();
     long deltaTime = currentTime - previousTime;
     double speedWeight = deltaTime / timeConstant;
-    speed = (1 - speedWeight) * speed + speedWeight * ticks;
+    speed = (1 - speedWeight) * speed + speedWeight * ticks / deltaTime;
     previousTime = currentTime;
 }
 
 double Odometer::getSpeed(){
+    return speed * speedConversionFactor;
+}
+double Odometer::getSpeedTPMS(){
     return speed;
 }
