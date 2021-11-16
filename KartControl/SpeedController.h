@@ -1,9 +1,11 @@
 #include "Brake.h"
 #include "Odometer.h"
 #include "Throttle.h"
+#include "Arduino.h"
 
-class SpeedController{
+class SpeedController : public Throttle, public Brake, public Odometer{
     public:
+        SpeedController();
         void setTarget(double target);
         void setThrottle(int throttlePower);
         void setBrake(int brakePosition);
@@ -16,11 +18,7 @@ class SpeedController{
 
         void update();
 
-
     private:
-        Brake brake;
-        Odometer odometer;
-        Throttle throttle;
 
         double target;
 

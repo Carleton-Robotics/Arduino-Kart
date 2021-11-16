@@ -1,45 +1,52 @@
 #include "SpeedController.h"
 #include "Pinouts.h"
 
-SpeedController::SpeedController(){
-    brake = Brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
-    throttle = Throttle(ThrottleSwitchPin);
-    odometer = Odometer(OdometerPin);
+
+
+SpeedController::SpeedController():
+    Throttle(ThrottleSwitchPin),
+    Brake(BrakePin1, BrakePin2, BrakePotentiometerPin),
+    Odometer(OdometerPin){
+
 }
 
-SpeedController::begin(){
-    throttle.begin();
-    odometer.begin();
-    brake.begin();
+void SpeedController::begin(){
+    Throttle::begin();
+    Odometer::begin();
+    Brake::begin();
 }
 
-SpeedController::setTarget(double target){
+void SpeedController::setTarget(double target){
     target = target;
 }
 
-SpeedController::setBrake(int brakePosition){
-    brake.updateCommand(brakePosition);
+void SpeedController::setBrake(int brakePosition){
+    Brake::setTarget(brakePosition);
 }
 
-SpeedController::setThrottle(int throttlePower){
-    throttle.setSpeed(throttlePower);
+void SpeedController::setThrottle(int throttlePower){
+    Throttle::setSpeed(throttlePower);
 }
 
-SpeedController::getDistance(){
-    return odometer.getDistance();
+double SpeedController::getDistance(){
+    return Odometer::getDistance();
 }
-SpeedController::getSpeed(){
-    return odometer.getSpeed();
+double SpeedController::getSpeed(){
+    return Odometer::getSpeed();
 }
 
-SpeedController::update(){
-    odometer.updateReading();
-    brake.update();
+void SpeedController::eStop(){
+    Brake::eStop();
+    Throttle::eStop();
+}
 
-    double current = odometer.getSpeed();
+void SpeedController::update(){
+    Brake::update();
+
+    double current = Odometer::getSpeed();
     P = target - current;
     I += P * (millis()/1000 - previousTime);
     previousTime = millis()/1000;
 
-    throttle.setSpeed(((Ki * I) + (Kp * P)) * 255);
+    Throttle::setSpeed(((Ki * I) + (Kp * P)) * 255);
 }

@@ -7,12 +7,14 @@ private:
     int pot;
     static const int startOfTravelValue = 145;
     static const int endOfTravelValue = 520;
+    int target;
     
 public:
     int state;
     Brake(int controlPin1, int controlPin2, int potentiometerPin);
 
     void begin();
-    bool updateCommand(int target);
+    void setTarget(int target);
+    bool update();
     void eStop();
 };

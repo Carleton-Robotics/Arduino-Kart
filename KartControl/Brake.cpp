@@ -9,9 +9,8 @@ void Brake::begin(){
     pinMode(pot, INPUT);
 }
 
-bool Brake::updateCommand(int target){
+bool Brake::update(){
     state = analogRead(pot);
-    target = map(target, 0, 255, startOfTravelValue, endOfTravelValue);
     if (abs(target - state) < 10){
         digitalWrite(control1, LOW);
         digitalWrite(control2, LOW);
@@ -27,6 +26,10 @@ bool Brake::updateCommand(int target){
         digitalWrite(control2, LOW);
         return false;
     }
+}
+
+void Brake::setTarget(int target){
+    target = map(target, 0, 255, startOfTravelValue, endOfTravelValue);
 }
 
 void Brake::eStop(){
