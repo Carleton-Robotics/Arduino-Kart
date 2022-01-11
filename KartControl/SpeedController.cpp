@@ -7,7 +7,7 @@ SpeedController::SpeedController():
     Throttle(ThrottleSwitchPin),
     Brake(BrakePin1, BrakePin2, BrakePotentiometerPin),
     Odometer(OdometerPin){
-
+        
 }
 
 void SpeedController::begin(){
@@ -31,6 +31,7 @@ void SpeedController::setThrottle(int throttlePower){
 double SpeedController::getDistance(){
     return Odometer::getDistance();
 }
+
 double SpeedController::getSpeed(){
     return Odometer::getSpeed();
 }

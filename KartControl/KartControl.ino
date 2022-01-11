@@ -16,7 +16,7 @@ SpeedController speedController;
 
 Compass compass;
 
-void(* resetFunc) (void) = 0;
+void(* resetFunc) (void) = 0; //Call to reset arduino
 
 void setup() {
   pinMode(MiscPin, INPUT_PULLUP); //Control Box Switch
@@ -25,13 +25,11 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(OdometerPin), odometerInterrupt, RISING);
   Serial.begin(115200);
 
+  //Wait for start switch
   while(digitalRead(MiscPin) != 1);
 
   speedController.begin();
 
-  // brake.begin();
-  // odometer.begin();
-  // throttle.begin();
   //compass.begin();
   //steeringMotor.begin();
 
@@ -39,38 +37,12 @@ void setup() {
   //steeringMotor.goTo(127);
   delay(2000);
 
-  // Kp = 0.1;
 
-  // Ki = 0;
-  
-  // I = 0;
-
-  // P = 0;
-
-  // target = 1;
-
-  // previousTime = millis()/1000;
-  //Serial.println("HI");
 
 }
 
 void loop() {
-  // odometer.update();
-  // double current = odometer.getSpeed();
-  // P = target - current;
-  // I += P * (millis()/1000 - previousTime);
-  // previousTime = millis()/1000;
-
-  // throttle.setSpeed(((Ki * I) + (Kp * P)) * 255);
-  // Serial.print(current*100);
-  // Serial.print("\t");
-  // Serial.print(Kp*P*100);
-  // Serial.print("\t");
-  // Serial.print(Ki*I*100);
-  // Serial.print("\t");
-  // Serial.println(100);
-  //Serial.println(((Ki * I) + (Kp * P)) * 255);
-
+  //Stop if start switch switched off
   if(digitalRead(MiscPin) != 1){
     stop();
   }
@@ -92,7 +64,6 @@ void loop() {
 //     }
 //   }
 // }
-
 
 
 void eStop(){
