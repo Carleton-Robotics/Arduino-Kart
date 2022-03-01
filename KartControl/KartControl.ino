@@ -3,7 +3,7 @@
 #include "SteeringMotor.h"
 #include "Compass.h"
 #include "SpeedController.h"
-
+#include "GPS.h"
 
 
 SteeringMotor steeringMotor(Serial2);
@@ -15,6 +15,8 @@ SteeringMotor steeringMotor(Serial2);
 SpeedController speedController;
 
 Compass compass;
+
+GPS gps;
 
 void(* resetFunc) (void) = 0; //Call to reset arduino
 
@@ -29,6 +31,8 @@ void setup() {
   while(digitalRead(MiscPin) != 1);
 
   speedController.begin();
+
+  gps.begin();
 
   //compass.begin();
   //steeringMotor.begin();
@@ -47,6 +51,7 @@ void loop() {
     stop();
   }
 
+  gps.update();
   speedController.update();
   speedController.setTarget(1);
 
