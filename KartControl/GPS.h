@@ -9,9 +9,13 @@ class GPS{
 
     void begin();
 
-    long getLatitude();
+    long getLatitudeRaw();
 
-    long getLongitude();
+    long getLongitudeRaw();
+
+    float getLatitudeMeters();
+
+    float getLongitudeMeters();
 
     void update();
 
@@ -22,4 +26,7 @@ class GPS{
     long latitude;
     long longitude;
     unsigned long previousTime;
+    float earthRadius;
+    float referenceLatiude;
+    float degToRad;
 };

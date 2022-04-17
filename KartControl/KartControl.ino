@@ -46,14 +46,14 @@ void setup() {
 }
 
 void loop() {
-  //Stop if start switch switched off
+  //Stop if misc switch on control box switched off
   if(digitalRead(MiscPin) != 1){
     stop();
   }
 
   gps.update();
-  speedController.update();
-  speedController.setTarget(1);
+  speedController.setThrottle(50);
+  int referenceLattitude = 45;
 
   delay(10);
 }
