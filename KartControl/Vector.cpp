@@ -1,6 +1,10 @@
 #include "Vector.h"
 #include <cmath>
 
+Vector::Vector(double initVector[2]): initVector[2](Vector[2]){
+
+}
+
 void Vector::addVectors(double addVector[2]){
     Vector[0] = Vector[0] + addVector[0];
     Vector[1] = Vector[1] + addVector[1];
