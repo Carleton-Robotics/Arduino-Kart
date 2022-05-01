@@ -2,16 +2,17 @@
 
 class Vector{
   private:
-    double Vector[2];
+    float x;
+    float y;
 
   public:
-    Vector(double Vector[2]);
+    Vector(float x, float y);
 
-    void addVectors(double addVector[2]);
+    void addVectors(float addX, float addY);
 
-    void subVectors(double subVector[2]);
+    void subVectors(float subX, float subY);
     
     double magVector();
     
-    double xPrVectors(double cPrVector[2]);
+    double xPrVectors(float xPrX, float xPrY);
 };

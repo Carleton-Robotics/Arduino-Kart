@@ -1,24 +1,22 @@
 #include "Vector.h"
-#include <cmath>
 
-Vector::Vector(double initVector[2]): initVector[2](Vector[2]){
-
+Vector::Vector(float initX, float initY) : x(initX), y(initY){
 }
 
-void Vector::addVectors(double addVector[2]){
-    Vector[0] = Vector[0] + addVector[0];
-    Vector[1] = Vector[1] + addVector[1];
+void Vector::addVectors(float addX, float addY){
+    x += addX;
+    y += addY;
 }
 
-void Vector::subVectors(double subVector[2]){
-    Vector[0] = Vector[0] - subVector[0];
-    Vector[1] = Vector[1] - subVector[1];
+void Vector::subVectors(float subX, float subY){
+    x -= subX;
+    y -= subY;
 }
 
 double Vector::magVector(){
-    return sqrt((Vector[0] * Vector[0]) + (Vector[1] * Vector[1]));
+    return sqrt(x * x) + (y * y));
 }
 
-double Vector::xPrVectors(double xPrVector[2]){
-    return (Vector[0]*xPrVector[1]) - (Vector[1]*xPrVector[0]);
+double Vector::xPrVectors(float xPrX, float xPrY){
+    return (x * xPrY) - (y * xPrX);
 }
