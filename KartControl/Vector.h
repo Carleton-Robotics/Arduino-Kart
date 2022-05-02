@@ -8,11 +8,24 @@ class Vector{
   public:
     Vector(float x, float y);
 
-    void addVectors(float addX, float addY);
+    //void addVectors(float addX, float addY);
 
-    void subVectors(float subX, float subY);
+    //void subVectors(float subX, float subY);
     
-    double magVector();
+    float getX();
+    float getY();
     
-    double xPrVectors(float xPrX, float xPrY);
+    float magClass();
+    float magVector();
+
+    float distVector(float distX, float distY);
+
+    float normClassX();
+    float normClassY();
+    float normX(float nmlX, float nmlY);
+    float normY(float nmlX, float nmlY);
+
+    float dotNorm(float dotX, float dotY, float angle):
+    
+    float xPrVectors(float xPrX, float xPrY);
 };
