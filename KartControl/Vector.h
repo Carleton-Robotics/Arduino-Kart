@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Vector{
   private:
@@ -7,25 +7,20 @@ class Vector{
 
   public:
     Vector(float x, float y);
-
-    //void addVectors(float addX, float addY);
-
-    //void subVectors(float subX, float subY);
     
     float getX();
     float getY();
+
+    void subVectors(Vector paraVector);
+
     
     float magClass();
-    float magVector();
+    //float magVector(Vector paraVector);
 
-    float distVector(float distX, float distY);
+    float distVector(Vector paraVector);
 
-    float normClassX();
-    float normClassY();
-    float normX(float nmlX, float nmlY);
-    float normY(float nmlX, float nmlY);
-
-    float dotNorm(float dotX, float dotY, float angle):
+    void norm();
+    //void norm(Vector paraVector);
     
-    float xPrVectors(float xPrX, float xPrY);
+    float xPrVectors(Vector paraVector);
 };
