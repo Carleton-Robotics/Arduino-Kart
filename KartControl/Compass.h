@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
-//#include <Adafruit_Sensor.h>
-//#include <Adafruit_HMC5883_U.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_HMC5883_U.h>
 
 class Compass : Adafruit_HMC5883_Unified{
     public:
@@ -9,8 +9,7 @@ class Compass : Adafruit_HMC5883_Unified{
     Compass();
     void begin();
 
-    int getHeading(); //Not Calibrated
-    int getAngle(); //Not Calibrated
+    float getHeading(); //Returns degrees - North unknown 
 
     void update(); //Must be called to get new data
 
@@ -18,11 +17,6 @@ class Compass : Adafruit_HMC5883_Unified{
     float getY(); //Accurate
 
     private:
-    
-    int heading;
-    int previousHeading;
-    int totalAngle;
-
     float xVal;
     float yVal;
 

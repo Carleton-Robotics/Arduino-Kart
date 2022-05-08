@@ -8,6 +8,7 @@
 
 SteeringMotor steeringMotor(Serial2);
 
+// These should be accessed through Speed Controller
 // Brake = brake(BrakePin1, BrakePin2, BrakePotentiometerPin);
 // Throttle = throttle(ThrottleSwitchPin);
 // Odometer = odometer(OdometerPin);

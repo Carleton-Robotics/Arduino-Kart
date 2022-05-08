@@ -4,10 +4,6 @@ GPS::GPS(){
     latitude = 0;
     longitude = 0;
     previousTime = 0;
-    earthRadius = 6371000; //meters
-    referenceLatiude = 45.4583; //location of Northfield according to Google
-    referenceLongitude = 93.1616;
-    degToRad = 3.14159265359/180;
 }
 void GPS::begin(){
     Wire.begin();
@@ -28,11 +24,11 @@ long GPS::getLatitudeRaw(){
 long GPS::getLongitudeRaw(){
     return longitude;
 }
-long GPS::getLatitudeMeters(){
-    float relativeDeg = latitude/10000000 - referenceLatitude;
-    return relativeDeg*degToRad*earthradius;
+float GPS::getLatitudeMeters(){
+    float relativeDeg = latitude / 10000000 - referenceLatitude;
+    return relativeDeg * DEG_TO_RAD * earthRadius;
 }
-long GPS::getLongitudeMeters(){
-    float relativeDeg = longitude/10000000 - referenceLongitude;
-    return relativeDeg*degToRad*earthradius*cos(referenceLatitude*degToRad);
+float GPS::getLongitudeMeters(){
+    float relativeDeg = longitude / 10000000 - referenceLongitude;
+    return relativeDeg * DEG_TO_RAD * earthRadius * cos(referenceLatitude * DEG_TO_RAD);
 }
