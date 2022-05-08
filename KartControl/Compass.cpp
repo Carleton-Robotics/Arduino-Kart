@@ -20,11 +20,11 @@ void Compass::update(){
 
     previousHeading = heading;
 };
-double Compass::getX(){
-    return xVal;
+float Compass::getX(){
+    return xVal + xOffset;
 }
-double Compass::getY(){
-    return yVal;
+float Compass::getY(){
+    return yVal + yOffset;
 }
 int Compass::getHeading(){
     return heading;
@@ -32,14 +32,3 @@ int Compass::getHeading(){
 int Compass::getAngle(){
     return totalAngle;
 };
-int Compass::getDifference(int current, int previous){
-    if(previous - current > 180){
-        return current + 360 - previous;
-    }
-    else if(current - previous > 180){
-        return previous + 360 - current;
-    }
-    else{
-        return current - previous;
-    }
-}

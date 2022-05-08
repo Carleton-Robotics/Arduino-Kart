@@ -8,12 +8,14 @@ class Compass : Adafruit_HMC5883_Unified{
 
     Compass();
     void begin();
-    int getHeading();
-    int getAngle();
-    void update();
 
-    double getX();
-    double getY();
+    int getHeading(); //Not Calibrated
+    int getAngle(); //Not Calibrated
+
+    void update(); //Must be called to get new data
+
+    float getX(); //Accurate
+    float getY(); //Accurate
 
     private:
     
@@ -21,8 +23,9 @@ class Compass : Adafruit_HMC5883_Unified{
     int previousHeading;
     int totalAngle;
 
-    double xVal;
-    double yVal;
+    float xVal;
+    float yVal;
 
-    int getDifference(int current, int previous);
+    float xOffset = 3.135;
+    float yOffset = 39.32;
 };
