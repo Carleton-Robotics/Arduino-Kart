@@ -1,24 +1,64 @@
 #include "Vector.h"
-#include <cmath>
 
-Vector::Vector(double initVector[2]): initVector[2](Vector[2]){
+Vector::Vector(float initX, float initY) : x(initX), y(initY){
 
 }
 
-void Vector::addVectors(double addVector[2]){
-    Vector[0] = Vector[0] + addVector[0];
-    Vector[1] = Vector[1] + addVector[1];
+/*
+void Vector::addVectors(float addX, float addY){
+    x += addX;
+    y += addY;
 }
 
-void Vector::subVectors(double subVector[2]){
-    Vector[0] = Vector[0] - subVector[0];
-    Vector[1] = Vector[1] - subVector[1];
+void Vector::subVectors(float subX, float subY){
+    x -= subX;
+    y -= subY;   
+}
+*/
+
+float getX(){
+    return x;
 }
 
-double Vector::magVector(){
-    return sqrt((Vector[0] * Vector[0]) + (Vector[1] * Vector[1]));
+float getY(){
+    return y;
 }
 
-double Vector::xPrVectors(double xPrVector[2]){
-    return (Vector[0]*xPrVector[1]) - (Vector[1]*xPrVector[0]);
+float Vector::magClass(){
+    return sqrt(x^2 + y^2);
+}
+
+float magVector(float magX, float magY){
+    return sqrt(magX ^ 2 + magY ^ 2);    
+}
+
+float Vector::distVector(float distX, float distY){
+    return sqrt((x - distX) ^ 2 + (y - distY) ^ 2);
+}
+
+float Vector::normClassX(){
+    return x / magClass();
+}
+
+float Vector::normClassY(){
+    return y / magClass();
+}
+
+float Vector::normX(float nmlX, float nmlY){
+    return nmlX / magVector(nmlX, nmlY);
+}
+
+float Vector::normY(float nmlX, float nmlY){
+    return nmlY / magVector(nmlX, nmlY);
+}
+
+float Vector::dotNorm(float dotX, float dotY, float angle){
+    return abs(magVector(normClassX(), normClassY())) * 
+    abs(magVector(normX(dotX, dotY), normY(dotX, dotY))) * 
+    cos(angle);
+}
+
+
+float Vector::xPrVectors(float xPrX, float xPrY){
+    return (x * xPrY) - (y * xPrX);
 }

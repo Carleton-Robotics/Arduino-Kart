@@ -2,16 +2,30 @@
 
 class Vector{
   private:
-    double Vector[2];
+    float x;
+    float y;
 
   public:
-    Vector(double Vector[2]);
+    Vector(float x, float y);
 
-    void addVectors(double addVector[2]);
+    //void addVectors(float addX, float addY);
 
-    void subVectors(double subVector[2]);
+    //void subVectors(float subX, float subY);
     
-    double magVector();
+    float getX();
+    float getY();
     
-    double xPrVectors(double cPrVector[2]);
+    float magClass();
+    float magVector();
+
+    float distVector(float distX, float distY);
+
+    float normClassX();
+    float normClassY();
+    float normX(float nmlX, float nmlY);
+    float normY(float nmlX, float nmlY);
+
+    float dotNorm(float dotX, float dotY, float angle):
+    
+    float xPrVectors(float xPrX, float xPrY);
 };

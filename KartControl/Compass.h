@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_HMC5883_U.h>
+//#include <Adafruit_Sensor.h>
+//#include <Adafruit_HMC5883_U.h>
 
 class Compass : Adafruit_HMC5883_Unified{
     public:
@@ -26,6 +26,11 @@ class Compass : Adafruit_HMC5883_Unified{
     float xVal;
     float yVal;
 
+<<<<<<< HEAD
     float xOffset = 3.135;
     float yOffset = 39.32;
 };
+=======
+    int getDifference(int current, int previous);
+};
+>>>>>>> c250fb1077b673ca26f60ef6e4e3801cdf2b690c
