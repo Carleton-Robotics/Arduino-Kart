@@ -15,6 +15,13 @@
 // I2C
     // SDA = 20
     // SCL = 21
+    
+// SD Card Reader
+// CS - 53
+// DI - 51
+// DO - 50
+// CLK - 52
+
 
 // Odometer
 #define OdometerPin 2
