@@ -31,6 +31,6 @@ void Vector::normalize(){
    y = y / magnitude();
 }
 
-float Vector::xPrVectors(Vector paraVector){
+float Vector::crossProduct(Vector paraVector){
     return (x * paraVector.getY()) - (y * paraVector.getX());
 }

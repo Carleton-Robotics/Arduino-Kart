@@ -20,5 +20,5 @@ class Vector{
 
     void normalize();
 
-    float xPrVectors(Vector paraVector);
+    float crossProduct(Vector paraVector);
 };
