@@ -11,16 +11,14 @@ class Vector{
     float getX();
     float getY();
 
-    void subVectors(Vector paraVector);
+    void subtract(Vector paraVector);
 
     
-    float magClass();
-    //float magVector(Vector paraVector);
+    float magnitude();
 
-    float distVector(Vector paraVector);
+    float dist(Vector paraVector);
 
-    void norm();
-    //void norm(Vector paraVector);
-    
+    void normalize();
+
     float xPrVectors(Vector paraVector);
 };
