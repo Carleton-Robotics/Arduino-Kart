@@ -28,5 +28,5 @@ class GPS{
     unsigned long previousTime;
     float earthRadius = 6371000; //meters
     float referenceLatitude  = 45.4583; //location of Northfield according to Google
-    float referenceLongitude = 93.1616;
+    float referenceLongitude = -93.1616;
 };
