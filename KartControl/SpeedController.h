@@ -8,7 +8,7 @@ class SpeedController : public Throttle, public Brake, public Odometer{
         SpeedController();
         void setTarget(double target);
         void setThrottle(int throttlePower);
-        void setBrake(int brakePosition);
+        int setBrake(int brakePosition);
         double getSpeed();
         double getDistance();
 
@@ -16,8 +16,9 @@ class SpeedController : public Throttle, public Brake, public Odometer{
 
         void begin();
 
-        void update();
+        int update();
 
+        int getBrakeState();
     private:
 
         double target;

@@ -30,6 +30,7 @@ void SteeringMotor::home(){
   RoboClaw::BackwardM1(ADDRESS, HOME_SPEED);
   delay(8000);
   RoboClaw::ForwardM1(ADDRESS, 0);
+  RoboClaw::ResetEncoders(ADDRESS);
   RoboClaw::ForwardM1(ADDRESS, HOME_SPEED);
   delay(8000);
   RoboClaw::ForwardM1(ADDRESS, 0);

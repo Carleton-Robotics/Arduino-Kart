@@ -20,8 +20,12 @@ void SpeedController::setTarget(double target){
     target = target;
 }
 
-void SpeedController::setBrake(int brakePosition){
-    Brake::setTarget(brakePosition);
+int SpeedController::setBrake(int brakePosition){
+    return Brake::setTarget(brakePosition);
+}
+
+int SpeedController::getBrakeState(){
+    return Brake::getState();
 }
 
 void SpeedController::setThrottle(int throttlePower){
@@ -41,8 +45,7 @@ void SpeedController::eStop(){
     Throttle::eStop();
 }
 
-void SpeedController::update(){
-    Brake::update();
+int SpeedController::update(){
 
     double current = Odometer::getSpeed();
     P = target - current;
@@ -50,4 +53,6 @@ void SpeedController::update(){
     previousTime = millis()/1000;
 
     Throttle::setSpeed(((Ki * I) + (Kp * P)) * 255);
+
+    return Brake::update();
 }

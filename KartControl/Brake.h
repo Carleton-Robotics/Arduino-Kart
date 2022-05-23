@@ -13,8 +13,9 @@ public:
     int state;
     Brake(int controlPin1, int controlPin2, int potentiometerPin);
 
+    int getState();
     void begin();
-    void setTarget(int target);
-    bool update();
+    int setTarget(int target);
+    int update();
     void eStop();
 };

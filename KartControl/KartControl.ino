@@ -15,9 +15,9 @@ SteeringMotor steeringMotor(Serial2);
 
 SpeedController speedController;
 
-Compass compass;
+//Compass compass;
 
-GPS gps;
+//GPS gps;
 
 void(* resetFunc) (void) = 0; //Call to reset arduino
 
@@ -32,18 +32,17 @@ void setup() {
   while(digitalRead(MiscPin) != 1);
 
   speedController.begin();
+  Serial.println("Begun");
 
-  gps.begin();
+  //gps.begin();
 
   //compass.begin();
-  //steeringMotor.begin();
+  steeringMotor.begin();
 
-  //steeringMotor.home();
-  //steeringMotor.goTo(127);
   delay(2000);
 
-  float[][] path = {{0.1, 0.8}, {0.2, 0.7}, {0.3, 0.7}} //example path. just an array of coordinates in meters
-  int i = 0; //index variable for path
+  // float[][] path = {{0.1, 0.8}, {0.2, 0.7}, {0.3, 0.7}} //example path. just an array of coordinates in meters
+  // int i = 0; //index variable for path
 }
 
 void loop() {
@@ -51,53 +50,45 @@ void loop() {
   if(digitalRead(MiscPin) != 1){
     stop();
   }
-
+  speedController.setBrake(0);
+  speedController.update();
   
-  speedController.setThrottle(50); //should this go in setup instead of loop?
-  gps.update();
-  Vector kartPos(gps.getLatitudeMeteres(), gps.getLongitudeMeters());
-  Vector targetPos(path[i][0], path[i][1]);
-  Vector nextTargetPos(path[i+1][0], path[i+1][1]);
-  float dist1 = Vector.dist(kartPos, targetPos);
-  float dist2 = Vector.dist(kartPos, nextTargetPos);
-  if(dist2 < dist1){
-    i++;
-  }
-  Vector kartDir(1, 0); //get kart direction from compass and store it as a unit vector
-  int n = 3; //distance to look ahead. Increase this number to smooth things out 
-  float targetDir[] = {path[i+n][0] - kartPos.getx(), path[i+n][1] - kartPos.gety()}; //this could be vector subtraction
-  targetDir.normalize();
-  float angleError = Vector.crossProduct(targetDir, kartDir);
-  Vector positionError = targetPos.subtract(kartPos);
-  float horzError = Vector.crossProduct(positionError, kartDir);
-  float A = 0.25;
-  float B = 1; //should satisfy 4A = B^2 if we want "critical damping" 
-  float turningRate = - A*horzError - B*angleError;
-  steeringMotor.goTo(128 + round(turningRate*10));
-  delay(10);
+  delay(100);
+
+  // speedController.setThrottle(50); //should this go in setup instead of loop?
+  // gps.update();
+  // Vector kartPos(gps.getLatitudeMeteres(), gps.getLongitudeMeters());
+  // Vector targetPos(path[i][0], path[i][1]);
+  // Vector nextTargetPos(path[i+1][0], path[i+1][1]);
+  // float dist1 = Vector.dist(kartPos, targetPos);
+  // float dist2 = Vector.dist(kartPos, nextTargetPos);
+  // if(dist2 < dist1){
+  //   i++;
+  // }
+  // Vector kartDir(1, 0); //get kart direction from compass and store it as a unit vector
+  // int n = 3; //distance to look ahead. Increase this number to smooth things out 
+  // float targetDir[] = {path[i+n][0] - kartPos.getx(), path[i+n][1] - kartPos.gety()}; //this could be vector subtraction
+  // targetDir.normalize();
+  // float angleError = Vector.crossProduct(targetDir, kartDir);
+  // Vector positionError = targetPos.subtract(kartPos);
+  // float horzError = Vector.crossProduct(positionError, kartDir);
+  // float A = 0.25;
+  // float B = 1; //should satisfy 4A = B^2 if we want "critical damping" 
+  // float turningRate = - A*horzError - B*angleError;
+  // steeringMotor.goTo(128 + round(turningRate*10));
+  // delay(10);
 }
 
-// void commTest(){
-//   throttle.setSpeed(32);
-//   if(Serial.available() > 0){
-//     String incomming = Serial.readStringUntil('\n');
-//     if(incomming == "STOP"){
-//       eStop();
-//       while(1)
-
-//     }
-//   }
-// }
 
 
 void eStop(){
-  steeringMotor.eStop();
+  //steeringMotor.eStop();
   speedController.eStop();
   while(1);
 }
 
 void stop(){
-  steeringMotor.eStop();
+  //steeringMotor.eStop();
   speedController.eStop();
   resetFunc();
 }
