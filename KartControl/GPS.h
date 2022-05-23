@@ -17,7 +17,7 @@ class GPS{
 
     float getLongitudeMeters();
 
-    void update();
+    bool update();
 
     private:
 

@@ -11,7 +11,7 @@ class Vector{
     float getX();
     float getY();
 
-    void subtract(Vector paraVector);
+    Vector subtract(Vector paraVector);
 
     
     float magnitude();

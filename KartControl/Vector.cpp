@@ -5,17 +5,16 @@ Vector::Vector(float initX, float initY) : x(initX), y(initY){
     //
 }
 
-float getX(){
+float Vector::getX(){
     return x;
 }
 
-float getY(){
+float Vector::getY(){
     return y;
 }
 
-void Vector::subtract(Vector paraVector){
-    x = x - paraVector.getX();
-    y = y - paraVector.getY();
+Vector Vector::subtract(Vector paraVector){
+    return Vector(x - paraVector.getX(), y - paraVector.getY());
 }
 
 float Vector::magnitude(){

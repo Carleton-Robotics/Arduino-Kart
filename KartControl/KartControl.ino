@@ -4,6 +4,7 @@
 #include "Compass.h"
 #include "SpeedController.h"
 #include "GPS.h"
+#include "Vector.h"
 
 
 SteeringMotor steeringMotor(Serial2);
@@ -17,9 +18,12 @@ SpeedController speedController;
 
 //Compass compass;
 
-//GPS gps;
+GPS gps;
 
 void(* resetFunc) (void) = 0; //Call to reset arduino
+
+float path[3][2] = {{0.1, 0.8}, {0.2, 0.7}, {0.3, 0.7}}; //example path. just an array of coordinates in meters
+int i = 0; //index variable for path
 
 void setup() {
   pinMode(MiscPin, INPUT_PULLUP); //Control Box Switch
@@ -34,15 +38,12 @@ void setup() {
   speedController.begin();
   Serial.println("Begun");
 
-  //gps.begin();
+  gps.begin();
 
   //compass.begin();
   steeringMotor.begin();
 
   delay(2000);
-
-  // float[][] path = {{0.1, 0.8}, {0.2, 0.7}, {0.3, 0.7}} //example path. just an array of coordinates in meters
-  // int i = 0; //index variable for path
 }
 
 void loop() {
@@ -55,7 +56,7 @@ void loop() {
   
   speedController.setThrottle(50); //should this go in setup instead of loop?
   if (gps.update()){
-    Vector kartPos = Vector(gps.getLatitudeMeteres(), gps.getLongitudeMeters());
+    Vector kartPos = Vector(gps.getLatitudeMeters(), gps.getLongitudeMeters());
     Vector targetPos = Vector(path[i][0], path[i][1]);
     Vector nextTargetPos = Vector(path[i+1][0], path[i+1][1]);
     float dist1 = kartPos.dist(targetPos);
