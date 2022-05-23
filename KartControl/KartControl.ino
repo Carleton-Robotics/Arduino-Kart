@@ -71,9 +71,10 @@ void loop() {
     targetDir.normalize();
     float angleError = targetDir.crossProduct(kartDir);
     Vector positionError = targetPos.subtract(kartPos);
-    float horzError = positionError.crossProduct(kartDir);
+    float horzError = positionError.crossProduct(targetDir);
     float A = 0.25;
-    float B = 1; //should satisfy 4A = B^2 if we want "critical damping" 
+    float B = 1; //should satisfy 4A = B^2 if we want "critical damping"
+    //should bound horzError to be no greater than B/A and no less than -B/A
     float turningRate = - A*horzError - B*angleError;
     steeringMotor.goTo(128 + round(turningRate*10));
   }
