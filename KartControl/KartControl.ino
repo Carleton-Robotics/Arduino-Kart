@@ -56,15 +56,15 @@ void loop() {
   
   speedController.setThrottle(50); //should this go in setup instead of loop?
   if (gps.update()){
-    Vector kartPos = Vector(gps.getLatitudeMeters(), gps.getLongitudeMeters());
+    Vector kartPos = gps.getPosVector();
     Vector targetPos = Vector(path[i][0], path[i][1]);
     Vector nextTargetPos = Vector(path[i+1][0], path[i+1][1]);
     float dist1 = kartPos.dist(targetPos);
     float dist2 = kartPos.dist(nextTargetPos);
-    if(dist2 < dist1){
+    if(dist2 < dist1){ //should change to while loop...
       i++;
     }
-    Vector kartDir(1, 0); //get kart direction from past GPS points and store it as a unit vector
+    Vector kartDir = gps.getHeadingVector();
     int n = 3; //distance to look ahead when computing targetDir. Increase this number to smooth out direction and anticipate turns
     Vector futureTargetPos = Vector(path[i+n][0], path[i+n][1]);
     Vector targetDir = futureTargetPos.subtract(kartPos);
