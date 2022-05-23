@@ -13,9 +13,12 @@ void GPS::begin(){
     GNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT);
 }
 
-void GPS::update(){
-    latitude = GNSS.getLatitude();
-    longitude = GNSS.getLongitude();
+bool GPS::update(){
+    //Query the GPS module only every second.
+    if (millis() - previousTime > 1100){
+        latitude = GNSS.getLatitude();
+        longitude = GNSS.getLongitude();
+    }
 }
 
 long GPS::getLatitudeRaw(){

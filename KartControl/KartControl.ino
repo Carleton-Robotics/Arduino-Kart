@@ -53,30 +53,30 @@ void loop() {
   speedController.setBrake(0);
   speedController.update();
   
-  delay(100);
-
-  // speedController.setThrottle(50); //should this go in setup instead of loop?
-  // gps.update();
-  // Vector kartPos(gps.getLatitudeMeteres(), gps.getLongitudeMeters());
-  // Vector targetPos(path[i][0], path[i][1]);
-  // Vector nextTargetPos(path[i+1][0], path[i+1][1]);
-  // float dist1 = Vector.dist(kartPos, targetPos);
-  // float dist2 = Vector.dist(kartPos, nextTargetPos);
-  // if(dist2 < dist1){
-  //   i++;
-  // }
-  // Vector kartDir(1, 0); //get kart direction from compass and store it as a unit vector
-  // int n = 3; //distance to look ahead. Increase this number to smooth things out 
-  // float targetDir[] = {path[i+n][0] - kartPos.getx(), path[i+n][1] - kartPos.gety()}; //this could be vector subtraction
-  // targetDir.normalize();
-  // float angleError = Vector.crossProduct(targetDir, kartDir);
-  // Vector positionError = targetPos.subtract(kartPos);
-  // float horzError = Vector.crossProduct(positionError, kartDir);
-  // float A = 0.25;
-  // float B = 1; //should satisfy 4A = B^2 if we want "critical damping" 
-  // float turningRate = - A*horzError - B*angleError;
-  // steeringMotor.goTo(128 + round(turningRate*10));
-  // delay(10);
+  speedController.setThrottle(50); //should this go in setup instead of loop?
+  if (gps.update()){
+    Vector kartPos = Vector(gps.getLatitudeMeteres(), gps.getLongitudeMeters());
+    Vector targetPos = Vector(path[i][0], path[i][1]);
+    Vector nextTargetPos = Vector(path[i+1][0], path[i+1][1]);
+    float dist1 = kartPos.dist(targetPos);
+    float dist2 = kartPos.dist(nextTargetPos);
+    if(dist2 < dist1){
+      i++;
+    }
+    Vector kartDir(1, 0); //get kart direction from past GPS points and store it as a unit vector
+    int n = 3; //distance to look ahead when computing targetDir. Increase this number to smooth out direction and anticipate turns
+    Vector futureTargetPos = Vector(path[i+n][0], path[i+n][1]);
+    Vector targetDir = futureTargetPos.subtract(kartPos);
+    targetDir.normalize();
+    float angleError = targetDir.crossProduct(kartDir);
+    Vector positionError = targetPos.subtract(kartPos);
+    float horzError = positionError.crossProduct(kartDir);
+    float A = 0.25;
+    float B = 1; //should satisfy 4A = B^2 if we want "critical damping" 
+    float turningRate = - A*horzError - B*angleError;
+    steeringMotor.goTo(128 + round(turningRate*10));
+  }
+  delay(10);
 }
 
 
