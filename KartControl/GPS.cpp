@@ -51,8 +51,8 @@ Vector GPS::getHeadingVector(){
     //due north is (0,1)
     //due west is (-1,0)
     //due south is (0,-1)
-    float headingRad = heading / 100000 * DEG_TO_RAD
-    return Vector(sin(headingRad), cos(headingRad))
+    float headingRad = heading / 100000 * DEG_TO_RAD;
+    return Vector(sin(headingRad), cos(headingRad));
     //note: sin and cos are switched because heading is
     //traditionally measured clockwise from due north (0,1) whereas
     //trig functions naturally go counterclockwise from (1,0).

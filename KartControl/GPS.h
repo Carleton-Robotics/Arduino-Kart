@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <SparkFun_u-blox_GNSS_Arduino_Library.h>
+#include "Vector.h"
 
 class GPS{
     public:
@@ -16,6 +17,12 @@ class GPS{
     float getLatitudeMeters();
 
     float getLongitudeMeters();
+
+    float getHeadingRaw();
+
+    Vector getPosVector();
+
+    Vector getHeadingVector();
 
     bool update();
 

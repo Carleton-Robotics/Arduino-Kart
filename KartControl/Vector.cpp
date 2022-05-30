@@ -26,8 +26,9 @@ float Vector::dist(Vector paraVector){
 }
 
 void Vector::normalize(){
-   x = x / magnitude();
-   y = y / magnitude();
+   float mag = magnitude();
+   x = x / mag;
+   y = y / mag;
 }
 
 float Vector::crossProduct(Vector paraVector){
