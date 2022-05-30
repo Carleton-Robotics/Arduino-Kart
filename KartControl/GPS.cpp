@@ -12,8 +12,7 @@ void GPS::begin(){
     GNSS.setI2COutput(COM_TYPE_UBX);
     GNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT);
 
-    //found this method online, is this the one we used on Monday?
-    GNSS.setNavigationFrequency(2); //units: Hz 
+    GNSS.setMeasurementRate(500); //units: ms
 }
 
 bool GPS::update(){
