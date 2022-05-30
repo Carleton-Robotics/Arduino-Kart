@@ -65,17 +65,17 @@ void loop() {
       i++;
     }
     Vector kartDir = gps.getHeadingVector();
-    int n = 3; //distance to look ahead when computing targetDir. Increase this number to smooth out direction and anticipate turns
+    int n = 5; //number of points to look ahead when computing targetDir. Increase this number to smooth out direction and anticipate turns
     Vector futureTargetPos = Vector(path[i+n][0], path[i+n][1]);
     Vector targetDir = futureTargetPos.subtract(kartPos);
     targetDir.normalize();
     float angleError = targetDir.crossProduct(kartDir);
     Vector positionError = targetPos.subtract(kartPos);
     float horzError = positionError.crossProduct(targetDir);
-    float A = 0.25;
-    float B = 1; //should satisfy 4A = B^2 if we want "critical damping"
-    //should bound horzError to be no greater than B/A and no less than -B/A
-    float turningRate = - A*horzError - B*angleError;
+    float B = 1; //units: 1/m. Make this parameter larger for quick steering and smaller for smooth steering
+    float A = B*B/4; //should satisfy 4A = B^2 if we want "critical damping"
+    horzError = constrain(horzError, -B/A/2, B/A/2);
+    float turningRate = - A*horzError - B*angleError; //pos=right, neg=left
     steeringMotor.goTo(128 + round(turningRate*10));
   }
   delay(10);
