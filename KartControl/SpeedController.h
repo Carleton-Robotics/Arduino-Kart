@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Brake.h"
 #include "Odometer.h"
 #include "Throttle.h"

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <MCP45HVX1.h>
 

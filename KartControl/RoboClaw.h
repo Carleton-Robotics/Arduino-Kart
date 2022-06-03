@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef RoboClaw_h
 #define RoboClaw_h
 

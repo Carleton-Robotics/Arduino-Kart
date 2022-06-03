@@ -7,7 +7,6 @@ Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, Hardw
   groundPin(groundPin),
   serial(Serial){
 }
-
 void Bluetooth::begin(void (*eStop)(void)){
   eStop = eStop;
   pinMode(modePin, OUTPUT);

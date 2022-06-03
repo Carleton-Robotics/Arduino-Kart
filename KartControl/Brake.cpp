@@ -9,11 +9,9 @@ void Brake::begin(){
     pinMode(control2, OUTPUT);
     pinMode(pot, INPUT);
 }
-
 int Brake::getState(){
     return state;
 }
-
 int Brake::update(){
     state = analogRead(pot);
     if (abs(target - state) < 10){
@@ -32,12 +30,10 @@ int Brake::update(){
         return 1;
     }
 }
-
 int Brake::setTarget(int setTo){
     target = map(setTo, 0, 255, startOfTravelValue, endOfTravelValue);
     return target;
 }
-
 void Brake::eStop(){
     digitalWrite(control1, HIGH);
     digitalWrite(control2, HIGH);

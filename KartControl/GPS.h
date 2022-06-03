@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <SparkFun_u-blox_GNSS_Arduino_Library.h>
@@ -33,9 +35,9 @@ class GPS{
     long latitude;
     long longitude;
     long heading;
-    unsigned long previousTime;
-    float earthRadius = 6371000; //meters
+    float rawLatToMeters = 0.0011119;
+    float rawLonToMeters = 0.00079364;
     //location of Northfield according to Google:
-    float referenceLatitude  = 44.4583;
-    float referenceLongitude = -93.1616;
+    long referenceLatitude  = 444583000;//units: deg*10^-7
+    long referenceLongitude = -931616000;//units: deg*10^-7
 };

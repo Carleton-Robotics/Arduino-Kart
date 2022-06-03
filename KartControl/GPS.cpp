@@ -1,22 +1,22 @@
 #include "GPS.h"
 
 GPS::GPS(){
-    latitude = 0;
-    longitude = 0;
-    previousTime = 0;
+    latitude = referenceLatitude;
+    longitude = referenceLongitude;
 }
 void GPS::begin(){
     Wire.begin();
     GNSS.begin();
 
+    //I don't know what these do, but all the examples use them
     GNSS.setI2COutput(COM_TYPE_UBX);
     GNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT);
 
+    //Set measurement rate to be twice a second
     GNSS.setMeasurementRate(500); //units: ms
 }
-
 bool GPS::update(){
-    //Query the GPS module twice a second.
+    //Get new data if its available
     if (GNSS.getPVT()){
         latitude = GNSS.getLatitude();
         longitude = GNSS.getLongitude();
@@ -25,7 +25,6 @@ bool GPS::update(){
     }
     return false;
 }
-
 long GPS::getLatitudeRaw(){
     return latitude;
 }
@@ -36,12 +35,20 @@ float GPS::getHeadingRaw(){
     return heading;
 }
 float GPS::getLatitudeMeters(){
-    float relativeDeg = latitude / 10000000.0 - referenceLatitude;
-    return relativeDeg * DEG_TO_RAD * earthRadius;
+    Serial.print("raw lat: ");
+    Serial.println(latitude);
+    long relative = latitude - referenceLatitude;
+    Serial.print("relative lat: ");
+    Serial.println(relative);
+    return relative * rawLatToMeters;
 }
 float GPS::getLongitudeMeters(){
-    float relativeDeg = longitude / 10000000.0 - referenceLongitude;
-    return relativeDeg * DEG_TO_RAD * earthRadius * cos(referenceLatitude * DEG_TO_RAD);
+    Serial.print("raw lon: ");
+    Serial.println(longitude);
+    long relative = longitude - referenceLongitude;
+    Serial.print("relative lon: ");
+    Serial.println(relative);
+    return relative * rawLonToMeters;
 }
 Vector GPS::getPosVector(){
     return Vector(getLongitudeMeters(), getLatitudeMeters());
