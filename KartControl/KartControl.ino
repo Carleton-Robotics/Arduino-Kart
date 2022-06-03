@@ -15,8 +15,6 @@ SteeringMotor steeringMotor(Serial2);
 
 SpeedController speedController;
 
-//Compass compass;
-
 GPS gps;
 
 void(* resetFunc) (void) = 0; //Call to reset arduino
@@ -53,16 +51,15 @@ void loop() {
     stop();
   }
 
-  steeringMotor.goToRaw(950);
-
-  Serial.println(steeringMotor.getRealPos());
 
 
   // speedController.setBrake(0);
   // speedController.update();
 
   
-  speedController.setThrottle(50); //should this go in setup instead of loop?
+  speedController.setThrottle(50);
+
+  
   if (gps.update()){
     Vector kartPos = gps.getPosVector();
     Vector targetPos = Vector(path[i][0], path[i][1]);

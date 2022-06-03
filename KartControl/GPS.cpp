@@ -36,11 +36,11 @@ float GPS::getHeadingRaw(){
     return heading;
 }
 float GPS::getLatitudeMeters(){
-    float relativeDeg = latitude / 10000000 - referenceLatitude;
+    float relativeDeg = latitude / 10000000.0 - referenceLatitude;
     return relativeDeg * DEG_TO_RAD * earthRadius;
 }
 float GPS::getLongitudeMeters(){
-    float relativeDeg = longitude / 10000000 - referenceLongitude;
+    float relativeDeg = longitude / 10000000.0 - referenceLongitude;
     return relativeDeg * DEG_TO_RAD * earthRadius * cos(referenceLatitude * DEG_TO_RAD);
 }
 Vector GPS::getPosVector(){
@@ -52,7 +52,7 @@ Vector GPS::getHeadingVector(){
     //due north is (0,1)
     //due west is (-1,0)
     //due south is (0,-1)
-    float headingRad = heading / 100000 * DEG_TO_RAD;
+    float headingRad = heading / 100000.0 * DEG_TO_RAD;
     return Vector(sin(headingRad), cos(headingRad));
     //note: sin and cos are switched because heading is
     //traditionally measured clockwise from due north (0,1) whereas
