@@ -69,14 +69,15 @@ void loop() {
     Vector futureTargetPos = Vector(path[i+n][0], path[i+n][1]);
     Vector targetDir = futureTargetPos.subtract(kartPos);
     targetDir.normalize();
-    float angleError = targetDir.crossProduct(kartDir);
-    Vector positionError = targetPos.subtract(kartPos);
+    Vector positionError = kartPos.subtract(targetPos);
     float horzError = positionError.crossProduct(targetDir);
+    float angleError = kartDir.crossProduct(targetDir);
     float B = 1; //units: 1/m. Make this parameter larger for quick steering and smaller for smooth steering
     float A = B*B/4; //should satisfy 4A = B^2 if we want "critical damping"
     horzError = constrain(horzError, -B/A/2, B/A/2);
-    float turningRate = - A*horzError - B*angleError; //pos=right, neg=left
-    steeringMotor.goTo(128 + round(turningRate*10));
+    float turningRate = - A*horzError - B*angleError; //units: 1/m, pos=right, neg=left
+    float steeringEncoder = constrain(turningRate*4000, -1000, 1000) //units: encoder ticks
+    steeringMotor.goToRaw(round(steeringEncoder));
   }
   delay(10);
 }
