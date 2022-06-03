@@ -17,12 +17,13 @@ void GPS::begin(){
 
 bool GPS::update(){
     //Query the GPS module twice a second.
-    if (millis() - previousTime > 500){
+    if (GNSS.getPVT()){
         latitude = GNSS.getLatitude();
         longitude = GNSS.getLongitude();
         heading = GNSS.getHeading();
-        previousTime = millis();
+        return true;
     }
+    return false;
 }
 
 long GPS::getLatitudeRaw(){

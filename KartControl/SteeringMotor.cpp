@@ -5,10 +5,15 @@ SteeringMotor::SteeringMotor(HardwareSerial& serial) : RoboClaw(&serial, 10000){
 }
 void SteeringMotor::begin(){
   RoboClaw::begin(38400);
+  RoboClaw::ResetEncoders(ADDRESS);
 }
 // Postition values are from 0 to 255
 bool SteeringMotor::goTo(uint32_t pos, uint32_t speed = DEFAULT_SPEED, uint32_t accel = DEFAULT_ACCEL, uint32_t decel = DEFAULT_DECEL){
   pos = map(pos, 0, 255, 0, encoderMax);
+  return RoboClaw::SpeedAccelDeccelPositionM1(ADDRESS, accel, speed, decel, pos, 1);
+}
+bool SteeringMotor::goToRaw(int encoderDisp, uint32_t speed = DEFAULT_SPEED, uint32_t accel = DEFAULT_ACCEL, uint32_t decel = DEFAULT_DECEL){
+  uint32_t pos = encoderDisp;
   return RoboClaw::SpeedAccelDeccelPositionM1(ADDRESS, accel, speed, decel, pos, 1);
 }
 uint32_t SteeringMotor::getPos(){
