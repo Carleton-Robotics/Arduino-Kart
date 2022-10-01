@@ -37,17 +37,17 @@ namespace kart {
 
         Vector2 operator*(const Vector2&) const;
 
-        Vector2 Abs() const;
+        Vector2 abs() const;
 
-        float Len() const;
+        float len() const;
 
-        float Dist(const Vector2&) const;
+        float dist(const Vector2&) const;
 
-        Vector2 Norm() const;
+        Vector2 norm() const;
 
-        float CrossProductMagnitude(const Vector2&) const;
+        float crossProductMagnitude(const Vector2&) const;
 
-        float Dot(const Vector2&) const;
+        float dot(const Vector2&) const;
     };
 }
 
