@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <SparkFun_u-blox_GNSS_Arduino_Library.h>
-#include "Vector.h"
+#include "Vector2.h"
 
 class GPS{
     public:
@@ -22,9 +22,9 @@ class GPS{
 
     float getHeadingRaw();
 
-    Vector getPosVector();
+    Vector2 getPosVector();
 
-    Vector getHeadingVector();
+    Vector2 getHeadingVector();
 
     bool update();
 
