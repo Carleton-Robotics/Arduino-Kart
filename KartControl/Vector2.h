@@ -37,7 +37,7 @@ namespace kart {
 
         Vector2 operator*(const Vector2&) const;
 
-        Vector2 abs() const;
+        Vector2 absolute() const;
 
         float len() const;
 

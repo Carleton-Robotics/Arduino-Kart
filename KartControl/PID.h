@@ -5,7 +5,7 @@
 #ifndef ARDUINO_KART_PID_H
 #define ARDUINO_KART_PID_H
 
-#include <limits>
+#include <float.h>
 
 namespace kart {
     class PIDImpl;
@@ -18,8 +18,8 @@ namespace kart {
      */
     class PID {
     public:
-        PID(float Kp, float Ki, float Kd, float max = std::numeric_limits<float>::min(),
-            float min = std::numeric_limits<float>::max());
+        PID(float Kp, float Ki, float Kd, float max = DBL_MIN,
+            float min = DBL_MAX);
 
         float calculate(float goal, float current, float dt);
 
