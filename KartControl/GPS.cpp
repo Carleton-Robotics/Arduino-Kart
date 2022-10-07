@@ -50,17 +50,17 @@ float GPS::getLongitudeMeters(){
     Serial.println(relative);
     return relative * rawLonToMeters;
 }
-Vector GPS::getPosVector(){
-    return Vector(getLongitudeMeters(), getLatitudeMeters());
+Vector2 GPS::getPosVector(){
+    return Vector2(getLongitudeMeters(), getLatitudeMeters());
 }
-Vector GPS::getHeadingVector(){
+Vector2 GPS::getHeadingVector(){
     //returns a unit vector indicating current heading
     //due east is (1,0)
     //due north is (0,1)
     //due west is (-1,0)
     //due south is (0,-1)
     float headingRad = heading / 100000.0 * DEG_TO_RAD;
-    return Vector(sin(headingRad), cos(headingRad));
+    return Vector2(sin(headingRad), cos(headingRad));
     //note: sin and cos are switched because heading is
     //traditionally measured clockwise from due north (0,1) whereas
     //trig functions naturally go counterclockwise from (1,0).

@@ -3,7 +3,7 @@
 #include "SteeringMotor.h"
 #include "SpeedController.h"
 #include "GPS.h"
-#include "Vector.h"
+#include "Vector2.h"
 
 
 SteeringMotor steeringMotor(Serial2);
@@ -84,7 +84,7 @@ void loop() {
 
 void printGPSCoords(){
   if (gps.update()){
-    Vector kartPos = gps.getPosVector();
+    Vector2 kartPos = gps.getPosVector();
     Serial.print("{ ");
     Serial.print(kartPos.getX());
     Serial.print(" , ");

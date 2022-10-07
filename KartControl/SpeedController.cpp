@@ -14,7 +14,7 @@ void SpeedController::begin(){
     Brake::begin();
 }
 void SpeedController::setTarget(double target){
-    target = target;
+    this->target = target;
 }
 int SpeedController::setBrake(int brakePosition){
     return Brake::setTarget(brakePosition);
