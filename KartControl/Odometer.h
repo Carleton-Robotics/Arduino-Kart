@@ -2,34 +2,41 @@
 
 #include <Arduino.h>
 
-class Odometer{
-  private:
-    bool toothPresent; 
-    int pin;
-    unsigned long totalCount;
-    unsigned long count;
+namespace kart {
 
-    unsigned long previousTime;
+    class Odometer {
+    private:
+        bool toothPresent;
+        int pin;
+        unsigned long totalCount;
+        unsigned long count;
 
-    double timeConstant = 50000;
+        unsigned long previousTime;
 
-    double speed;
+        double timeConstant = 50000;
 
-    const double distanceConversionFactor = 0.0248;
-    const double speedConversionFactor = 24800; //tick per ms to m per s
+        double speed;
 
-    void updateSpeed(int ticks);
+        const double distanceConversionFactor = 0.0248;
+        const double speedConversionFactor = 24800; //tick per ms to m per s
 
-  public:
-    Odometer(int pin);
-    void begin();
+        void updateSpeed(int ticks);
 
-    void countTick();
+    public:
+        Odometer(int pin);
 
-    void update();
-    double getDistanceT();
-    double getDistance();
+        void begin();
 
-    double getSpeedTPMS();
-    double getSpeed();
-};
+        void countTick();
+
+        void update();
+
+        double getDistanceT();
+
+        double getDistance();
+
+        double getSpeedTPMS();
+
+        double getSpeed();
+    };
+}

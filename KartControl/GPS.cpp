@@ -1,5 +1,7 @@
 #include "GPS.h"
 
+using namespace kart;
+
 GPS::GPS(){
     latitude = referenceLatitude;
     longitude = referenceLongitude;

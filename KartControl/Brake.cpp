@@ -1,6 +1,8 @@
 #include "Brake.h"
 #include <Arduino.h>
 
+using namespace kart;
+
 Brake::Brake(int controlPin1, int controlPin2, int potentiometerPin) : control1(controlPin1), control2(controlPin2), pot(potentiometerPin){
     
 }

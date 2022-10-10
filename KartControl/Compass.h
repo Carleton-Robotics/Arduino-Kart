@@ -3,23 +3,27 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
 
-class Compass : Adafruit_HMC5883_Unified{
+namespace kart {
+
+    class Compass : Adafruit_HMC5883_Unified {
     public:
 
-    Compass();
-    void begin();
+        Compass();
 
-    float getHeading(); //Returns degrees - North unknown 
+        void begin();
 
-    void update(); //Must be called to get new data
+        float getHeading(); //Returns degrees - North unknown
 
-    float getX(); //Accurate
-    float getY(); //Accurate
+        void update(); //Must be called to get new data
+
+        float getX(); //Accurate
+        float getY(); //Accurate
 
     private:
-    float xVal;
-    float yVal;
+        float xVal;
+        float yVal;
 
-    float xOffset = 3.135;
-    float yOffset = 39.32;
-};
+        float xOffset = 3.135;
+        float yOffset = 39.32;
+    };
+}

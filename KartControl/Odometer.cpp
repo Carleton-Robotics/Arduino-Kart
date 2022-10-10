@@ -1,6 +1,8 @@
 #include "Odometer.h"
 #include <Arduino.h>
 
+using namespace kart;
+
 Odometer::Odometer(int pin): pin(pin){
     toothPresent = false;
     count = 0;

@@ -3,19 +3,25 @@
 #include <Arduino.h>
 #include <MCP45HVX1.h>
 
-class Throttle {
-private:
-    MCP45HVX1 digiPot;
-    int switchPin;
+namespace kart {
 
-    int MINSPEED = 0;
-    int MAXSPEED = 0;
+    class Throttle {
+    private:
+        MCP45HVX1 digiPot;
+        int switchPin;
 
-public:
-    Throttle(int switchPin);
-    void begin();
+        int MINSPEED = 0;
+        int MAXSPEED = 0;
 
-    void setSpeed(int val);
-    void setSpeedMPS(int val);
-    void eStop();
-};
+    public:
+        Throttle(int switchPin);
+
+        void begin();
+
+        void setSpeed(int val);
+
+        void setSpeedMPS(int val);
+
+        void eStop();
+    };
+}

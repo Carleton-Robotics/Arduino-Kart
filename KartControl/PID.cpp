@@ -2,21 +2,33 @@
 // Created by Zimri on 10/1/2022.
 //
 
+#include "Arduino.h"
 #include "PID.h"
 
 namespace kart {
     class PIDImpl {
     public:
-        PIDImpl(float Kp, float Ki, float Kd, float max, float min);
+        PIDImpl(float Kp, float Ki, float Kd, float maxVal, float minVal);
 
         float calculate(float goal, float current, float dt);
+
     private:
-        float Kp, Ki, Kd, max, min, lastErr, integral;
+        float Kp, Ki, Kd, maxVal, minVal, lastErr, integral;
     };
 }
 
-kart::PIDImpl::PIDImpl(float Kp, float Ki, float Kd, float max, float min) : Kp(Kp), Ki(Ki), Kd(Kd), max(max),
-                                                                             min(min), lastErr(0.0f), integral(0.0f) {
+kart::PIDImpl::PIDImpl(float Kp, float Ki, float Kd, float maxVal, float minVal) : Kp(Kp), Ki(Ki), Kd(Kd), maxVal(maxVal),
+                                                                                   minVal(minVal), lastErr(0.0f), integral(0.0f) {
+}
+
+
+void printPID(float p, float i, float d) {
+    Serial.print(F("P: "));
+    Serial.print(p);
+    Serial.print(F(", I: "));
+    Serial.print(i);
+    Serial.print(F(", D: "));
+    Serial.println(d);
 }
 
 float kart::PIDImpl::calculate(float goal, float current, float dt) {
@@ -26,12 +38,13 @@ float kart::PIDImpl::calculate(float goal, float current, float dt) {
     float i = integral * Ki;
     float d = (err - lastErr) / dt * Kd;
     float out = p + i + d;
-    if(out > max) {
-        out = max;
-    } else if(out < min) {
-        out = min;
+    if (out > maxVal) {
+        out = maxVal;
+    } else if (out < minVal) {
+        out = minVal;
     }
     lastErr = err;
+    printPID(p, i, d);
     return out;
 }
 

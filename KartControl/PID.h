@@ -18,8 +18,8 @@ namespace kart {
      */
     class PID {
     public:
-        PID(float Kp, float Ki, float Kd, float max = DBL_MIN,
-            float min = DBL_MAX);
+        PID(float Kp, float Ki, float Kd, float maxVal = 1e40,
+            float minVal = -1e40);
 
         float calculate(float goal, float current, float dt);
 

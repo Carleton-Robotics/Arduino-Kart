@@ -1,6 +1,8 @@
 #include "Bluetooth.h"
 #include <Arduino.h>
 
+using namespace kart;
+
 Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, HardwareSerial Serial):
   Adafruit_BluefruitLE_UART(bleSerial), 
   modePin(modePin), 
