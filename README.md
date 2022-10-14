@@ -5,8 +5,8 @@
 * Run `arduino-cli core install arduino:avr`
 * Install the following libraries with `arduino-cli lib install <libname>`
   * MCP45HVX1
-  * SparkFun_u-blox_GNSS_Arduino_Library
-  * Adafruit_BluefruitLE_nRF51
+  * "SparkFun u-blox GNSS Arduino Library"
+  * "Adafruit BluefruitLE nRF51"
   * SD
   * LinkedList
 * Plug in Arduino, run `arduino-cli board list` to find port name of connected board
