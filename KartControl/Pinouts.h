@@ -1,3 +1,5 @@
+#pragma once
+
 //** Bluetooth **
 #define BluetoothModePin 23
 #define BluetoothGroundPin 3 //TODO Swith to Pin 4

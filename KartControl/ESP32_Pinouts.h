@@ -1,3 +1,5 @@
+#pragma once
+
 #define DEBUG_LED_PIN 13
 
 /** GPS **/

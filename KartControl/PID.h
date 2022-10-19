@@ -1,9 +1,4 @@
-//
-// Created by Zimri on 10/1/2022.
-//
-
-#ifndef ARDUINO_KART_PID_H
-#define ARDUINO_KART_PID_H
+#pragma once
 
 #include <float.h>
 
@@ -28,6 +23,3 @@ namespace kart {
         PIDImpl *pimpl;
     };
 }
-
-
-#endif //ARDUINO_KART_PID_H

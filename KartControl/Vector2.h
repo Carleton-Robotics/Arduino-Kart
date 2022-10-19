@@ -1,9 +1,4 @@
-//
-// Created by Zimri on 9/30/2022.
-//
-
-#ifndef ARDUINO_KART_VECTOR2_H
-#define ARDUINO_KART_VECTOR2_H
+#pragma once
 
 namespace kart {
 
@@ -50,6 +45,3 @@ namespace kart {
         float dot(const Vector2&) const;
     };
 }
-
-
-#endif //ARDUINO_KART_VECTOR2_H
