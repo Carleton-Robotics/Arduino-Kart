@@ -7,7 +7,7 @@ SpeedController::SpeedController() :
         Throttle(ThrottleSwitchPin),
         Brake(BrakePin1, BrakePin2, BrakePotentiometerPin),
         Odometer(OdometerPin){
-    this->pid = new PID(0.6 * 0.25, 2.0 * 0.25 / 0.5, 0.25 * 0.5 / 8.0);
+    this->pid = new PID(0.6 * 0.7, 0.0, 0.0,100.0, 0.0);
 }
 
 void SpeedController::begin() {
@@ -65,7 +65,7 @@ int SpeedController::update() {
     Serial.print(F("Setting speed to "));
     Serial.println(newSpeed);
     previousTime = t;
-    Throttle::setSpeed(newSpeed);
+    Throttle::setSpeed(target * 0.35 * 255);
 
     return Brake::update();
 }

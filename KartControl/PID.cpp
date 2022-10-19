@@ -38,6 +38,7 @@ float kart::PIDImpl::calculate(float goal, float current, float dt) {
     float i = integral * Ki;
     float d = (err - lastErr) / dt * Kd;
     float out = p + i + d;
+    Serial.println(out);
     if (out > maxVal) {
         out = maxVal;
     } else if (out < minVal) {

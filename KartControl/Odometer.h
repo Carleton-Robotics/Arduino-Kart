@@ -13,7 +13,7 @@ namespace kart {
 
         unsigned long previousTime;
 
-        double timeConstant = 50000;
+        double timeConstant = 150000;
 
         double speed;
 

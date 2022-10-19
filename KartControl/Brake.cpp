@@ -32,10 +32,12 @@ int Brake::update(){
         return 1;
     }
 }
+
 int Brake::setTarget(int setTo){
     target = map(setTo, 0, 255, startOfTravelValue, endOfTravelValue);
     return target;
 }
+
 void Brake::eStop(){
     digitalWrite(control1, HIGH);
     digitalWrite(control2, HIGH);
