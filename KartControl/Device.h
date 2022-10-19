@@ -1,10 +1,21 @@
-#ifndef ARDUINO_KART_DEVICE_H
-#define ARDUINO_KART_DEVICE_H
+#pragma once
+namespace kart {
+    class Device {
 
+        Device();
 
-class Device {
+        ~Device();
 
-};
+        int getStatus();
 
+        void preInit();
 
-#endif //ARDUINO_KART_DEVICE_H
+        void postInit();
+
+        char *getName();
+
+        bool isEnabled();
+
+        void handleTick();
+    };
+}

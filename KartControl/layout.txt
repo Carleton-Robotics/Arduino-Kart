@@ -1,9 +1,0 @@
-Devices
-    getStatus() returns enum
-    getType() returns DeviceType
-    setup()
-    earlyInit()
-    handleTick()
-    getName()
-    isEnabled()
-    handleMessage()?
