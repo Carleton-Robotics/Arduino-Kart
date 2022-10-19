@@ -4,28 +4,33 @@
 
 namespace kart {
 
-    class Brake {
-    private:
-        int control1;
-        int control2;
-        int pot;
-        static const int startOfTravelValue = 145;
-        static const int endOfTravelValue = 520;
-        int target;
+    class Brake : public Device {
+        class Impl;
+        Impl *pimpl;
 
     public:
-        int state;
-
         Brake(int controlPin1, int controlPin2, int potentiometerPin);
 
-        int getState();
+        ~Brake();
 
         void begin();
 
         int setTarget(int target);
 
-        int update();
+        int getTarget();
 
         void eStop();
+
+        int getStatus();
+
+        void preInit();
+
+        void postInit();
+
+        char *getName();
+
+        bool isEnabled();
+
+        void handleTick();
     };
 }

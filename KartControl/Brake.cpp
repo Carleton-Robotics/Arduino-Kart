@@ -3,42 +3,58 @@
 
 using namespace kart;
 
-Brake::Brake(int controlPin1, int controlPin2, int potentiometerPin) : control1(controlPin1), control2(controlPin2), pot(potentiometerPin){
-    
+class Brake::Impl {
+public:
+    const int startOfTravelValue = 145;
+    const int endOfTravelValue = 520;
+    int control1;
+    int control2;
+    int pot;
+    int target;
+    int state = 0;
+
+    BrakeImpl(int control1, int control2, int pot, int target) : control1(control1), control2(control2), pot(pot),
+                                                                 target(target) {
+    }
+};
+
+Brake::Brake(int controlPin1, int controlPin2, int potentiometerPin) : pimpl(
+        new BrakeImpl(controlPin1, controlPin2, potentiometerPin, 0)) {
 }
-void Brake::begin(){
-    pinMode(control1, OUTPUT);
-    pinMode(control2, OUTPUT);
-    pinMode(pot, INPUT);
+
+Brake::~Brake() {
+    delete pimpl;
 }
-int Brake::getState(){
-    return state;
+
+void Brake::begin() {
+    pinMode(pimpl->control1, OUTPUT);
+    pinMode(pimpl->control2, OUTPUT);
+    pinMode(pimpl->pot, INPUT);
 }
-int Brake::update(){
-    state = analogRead(pot);
-    if (abs(target - state) < 10){
-        digitalWrite(control1, LOW);
-        digitalWrite(control2, LOW);
+
+int Brake::handleTick() {
+    pimpl->state = analogRead(pimpl->pot);
+    if (abs(target - state) < 10) {
+        digitalWrite(pimpl->control1, LOW);
+        digitalWrite(pimpl->control2, LOW);
         return 0;
-    }
-    else if (target < state){ //Backwards Less Brake
-        digitalWrite(control1, LOW);
-        digitalWrite(control2, HIGH);
+    } else if (pimpl->target < pimpl->state) { //Backwards Less Brake
+        digitalWrite(pimpl->control1, LOW);
+        digitalWrite(pimpl->control2, HIGH);
         return -1;
-    }
-    else if(target > state){ //Forwards More Brake
-        digitalWrite(control1, HIGH);
-        digitalWrite(control2, LOW);
+    } else if (pimpl->target > pimpl->state) { //Forwards More Brake
+        digitalWrite(pimpl->control1, HIGH);
+        digitalWrite(pimpl->control2, LOW);
         return 1;
     }
 }
 
-int Brake::setTarget(int setTo){
-    target = map(setTo, 0, 255, startOfTravelValue, endOfTravelValue);
-    return target;
+int Brake::setTarget(int target) {
+    pimpl->target = map(target, 0, 255, pimpl->startOfTravelValue, pimpl->endOfTravelValue);
+    return pimpl->target;
 }
 
-void Brake::eStop(){
-    digitalWrite(control1, HIGH);
-    digitalWrite(control2, HIGH);
+void Brake::eStop() {
+    digitalWrite(pimpl->control1, HIGH);
+    digitalWrite(pimpl->control2, HIGH);
 }
