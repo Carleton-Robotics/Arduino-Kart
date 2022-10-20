@@ -19,7 +19,7 @@
 ### Before you start actually writing some new code
 * `git pull`
   * This makes sure that you have the latest version of all the code
-  * If it says something about a merge conflict, you'll need to fix that before you proceed. See the `Merge conflicts` section below, or use Google
+  * If it says something about a merge conflict, you'll need to fix that before you proceed. See the `Dealing with merge conflicts` section below, or use Google
 * `git branch`
   * This prints out all the current local branches ([here's an explanation of what branches are](https://www.atlassian.com/git/tutorials/using-branches)). The branch you are currently on is marked with a `*`
 * `git checkout main`
@@ -71,3 +71,6 @@
 ### How do I actually compile and run the code?
 * Plug in Arduino, run `arduino-cli board list` to find port name of connected board
 * `arduino-cli compile && arduino-cli upload --fqbn arduino:avr:mega -p <port name> && arduino-cli monitor --config baudrate=115200 -p <port name>`, replacing `<port name>` with the name of the port that it is connected to. This will compile and upload the code to the Arduino, then watch the serial connection to get terminal output
+
+## Dealing with merge conflicts
+Merge conflicts happen when the same file is changed multiple times in different ways without everyone having the most recent copy of the file. For example, if someone changes the brake potentiometer output pin to `20` and commits the change, and someone else doesn't pull this commit and changes the pin to `30`, then there will be a conflict. Fixing merge conflicts has been covered well in this tutorial from Atlassian: https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts
