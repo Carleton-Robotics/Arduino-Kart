@@ -17,8 +17,8 @@
 
 /** SD Card Reader **/
 // SPI
-    // SDO 23
-    // SDI 19
+    // MISO/SDO 19
+    // MOSI/SDI 23
     // CLK 18
     // CS  5
 
