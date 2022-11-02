@@ -6,16 +6,16 @@ namespace kart {
 
         ~Device();
 
-        int getStatus();
+        virtual int getStatus() = 0;
 
-        void preInit();
+        virtual void preInit() = 0;
 
-        void postInit();
+        virtual void postInit() = 0;
 
-        char *getName();
+        virtual char *getName() = 0;
 
-        bool isEnabled();
+        virtual bool isEnabled() = 0;
 
-        void handleTick();
+        virtual void handleTick() = 0;
     };
 }
