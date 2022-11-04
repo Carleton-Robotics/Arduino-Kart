@@ -38,7 +38,7 @@ Bluetooth::Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, Hardw
         new Bluetooth::Impl(bleSerial, modePin, groundPin, Serial)) {
 }
 
-void Bluetooth::preInit() {
+void Bluetooth::init() {
     pinMode(pimpl->modePin, OUTPUT);
     pinMode(pimpl->groundPin, OUTPUT);
     digitalWrite(pimpl->groundPin, LOW);
@@ -46,15 +46,15 @@ void Bluetooth::preInit() {
     pimpl->bluefruitLeUart->begin();
 }
 
-void Bluetooth::postInit() {
+void Bluetooth::preInit() {
 }
 
 bool Bluetooth::isEnabled() {
     return false; // TODO get bluetooth working again
 }
 
-char* Bluetooth::getName() {
-    static char[] name = "Bluetooth";
+char *Bluetooth::getName() {
+    static char name[] = "Bluetooth";
     return name;
 }
 
@@ -70,7 +70,7 @@ void Bluetooth::attemptConnect() {
     digitalWrite(pimpl->modePin, LOW);
 }
 
-void Bluetooth::handleTick() {
+void Bluetooth::update() {
     if (pimpl->bluefruitLeUart->isConnected()) {
         pimpl->status = Status::CONNECTED;
         while (pimpl->bluefruitLeUart->available() >= RECIEVED_PACKET_SIZE) {
@@ -100,6 +100,14 @@ void Bluetooth::send(char a, char b, char c) { //Up to 20 parameters can be adde
     pimpl->bluefruitLeUart->write(toSend); //Phone code must know the number of variables to expect
 }
 
-Bluetooth::Status Bluetooth::getStatus() {
+int Bluetooth::getStatus() {
     return pimpl->status;
+}
+
+void Bluetooth::shutdown() {
+    pimpl->bluefruitLeUart->end();
+}
+
+int Bluetooth::getError() {
+    return Error::NONE;
 }

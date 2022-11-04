@@ -2,7 +2,7 @@
 namespace kart {
 
     class TickHandler {
-        virtual void handleTick();
+        virtual void update();
     };
 
     class Timer {

@@ -18,6 +18,11 @@ namespace kart {
  */
 
     class Bluetooth : public Device {
+    private:
+        Impl *pimpl;
+
+        class Impl;
+
     public:
         // Default Values for each thing controlled over bluetooth
         // Will be returned if no data has yet been sent from the phone
@@ -30,22 +35,17 @@ namespace kart {
         static const int BRAKE_INDEX = 2;
         static const int RECIEVED_PACKET_SIZE = 3;
 
-        class Impl;
-
         enum Status {
-            ERR, INITIALIZING, CONNECTING, CONNECTED
+            INITIALIZING, CONNECTING, CONNECTED;
         };
 
-    private:
-        Impl *pimpl;
-    public:
         // bleSerial is the serial connected to the bluetooth module -> Serial1
         // Serial is the main serial used for debugging -> Serial
         Bluetooth(HardwareSerial bleSerial, int modePin, int groundPin, HardwareSerial Serial);
 
         void attemptConnect();
 
-        void handleTick();
+        void update();
 
         int getThrottle();
 
@@ -55,14 +55,18 @@ namespace kart {
 
         void send(char a, char b, char c);
 
-        Status getStatus();
+        int getStatus();
+
+        void init();
 
         void preInit();
-
-        void postInit();
 
         char *getName();
 
         bool isEnabled();
+
+        void shutdown();
+
+        int getError();
     };
 }

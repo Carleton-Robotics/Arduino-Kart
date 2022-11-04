@@ -1,35 +1,36 @@
 #pragma once
 
 #include <Arduino.h>
+#include "Device.h"
 
 namespace kart {
 
-    class Odometer {
+    class Odometer : public Device {
     private:
-        bool toothPresent;
-        int pin;
-        unsigned long totalCount;
-        unsigned long count;
 
-        unsigned long previousTime;
+        class Impl;
 
-        double timeConstant = 150000;
-
-        double speed;
-
-        const double distanceConversionFactor = 0.0248;
-        const double speedConversionFactor = 24800; //tick per ms to m per s
-
-        void updateSpeed(int ticks);
-
+        Impl *pimpl;
     public:
         Odometer(int pin);
 
-        void begin();
+        void init();
+
+        void preInit();
 
         void countTick();
 
         void update();
+
+        char *getName();
+
+        int getStatus();
+
+        int getError();
+
+        bool isEnabled();
+
+        void shutdown();
 
         double getDistanceT();
 

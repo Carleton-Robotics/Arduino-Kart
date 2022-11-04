@@ -4,28 +4,40 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
+#include "Device.h"
 
 namespace kart {
+    class Compass : public Device {
+    private:
+        class Impl;
 
-    class Compass : Adafruit_HMC5883_Unified {
+        Impl *pimpl;
     public:
 
         Compass();
 
-        void begin();
+        ~Compass();
+
+        void init();
+
+        void preInit();
+
+        char *getName();
 
         float getHeading(); //Returns degrees - North unknown
 
         void update(); //Must be called to get new data
 
-        float getX(); //Accurate
+        float getX(); //Accurate TODO what do they mean by accurate :(
+
         float getY(); //Accurate
 
-    private:
-        float xVal;
-        float yVal;
+        int getStatus();
 
-        float xOffset = 3.135;
-        float yOffset = 39.32;
+        int getError();
+
+        void shutdown();
+
+        bool isEnabled();
     };
 }

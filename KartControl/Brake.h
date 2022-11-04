@@ -6,31 +6,33 @@ namespace kart {
 
     class Brake : public Device {
         class Impl;
+
         Impl *pimpl;
 
     public:
+
         Brake(int controlPin1, int controlPin2, int potentiometerPin);
 
         ~Brake();
-
-        void begin();
 
         int setTarget(int target);
 
         int getTarget();
 
-        void eStop();
-
         int getStatus();
 
-        void preInit();
+        int getError();
 
-        void postInit();
+        void init();
+
+        void preInit();
 
         char *getName();
 
         bool isEnabled();
 
-        void handleTick();
+        void update();
+
+        void shutdown();
     };
 }

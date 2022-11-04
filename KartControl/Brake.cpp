@@ -5,8 +5,8 @@ using namespace kart;
 
 class Brake::Impl {
 public:
-    const int startOfTravelValue = 145;
-    const int endOfTravelValue = 520;
+    const int START_OF_TRAVEL_VALUE = 145;
+    const int END_OF_TRAVEL_VALUE = 520;
     int control1;
     int control2;
     int pot;
@@ -26,35 +26,56 @@ Brake::~Brake() {
     delete pimpl;
 }
 
-void Brake::begin() {
+void Brake::init() {
     pinMode(pimpl->control1, OUTPUT);
     pinMode(pimpl->control2, OUTPUT);
     pinMode(pimpl->pot, INPUT);
 }
 
-int Brake::handleTick() {
+void Brake::preInit() {
+}
+
+void Brake::update() {
     pimpl->state = analogRead(pimpl->pot);
     if (abs(target - state) < 10) {
         digitalWrite(pimpl->control1, LOW);
         digitalWrite(pimpl->control2, LOW);
-        return 0;
     } else if (pimpl->target < pimpl->state) { //Backwards Less Brake
         digitalWrite(pimpl->control1, LOW);
         digitalWrite(pimpl->control2, HIGH);
-        return -1;
     } else if (pimpl->target > pimpl->state) { //Forwards More Brake
         digitalWrite(pimpl->control1, HIGH);
         digitalWrite(pimpl->control2, LOW);
-        return 1;
     }
 }
 
 int Brake::setTarget(int target) {
-    pimpl->target = map(target, 0, 255, pimpl->startOfTravelValue, pimpl->endOfTravelValue);
+    pimpl->target = map(target, 0, 255, Impl::START_OF_TRAVEL_VALUE, Impl::END_OF_TRAVEL_VALUE);
     return pimpl->target;
 }
 
-void Brake::eStop() {
+int Brake::getTarget() {
+    return pimpl->target;
+}
+
+int Brake::getStatus() {
+    return Status::OK;
+}
+
+void Brake::shutdown() {
     digitalWrite(pimpl->control1, HIGH);
     digitalWrite(pimpl->control2, HIGH);
+}
+
+int Brake::getError() {
+    return Error::NONE;
+}
+
+bool Brake::isEnabled() {
+    return true;
+}
+
+char *Brake::getName() {
+    static char name[] = "Brake";
+    return name;
 }

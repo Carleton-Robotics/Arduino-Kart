@@ -2,60 +2,111 @@
 
 using namespace kart;
 
-GPS::GPS(){
-    latitude = referenceLatitude;
-    longitude = referenceLongitude;
+class GPS::Impl {
+public:
+    Impl();
+    ~Impl();
+
+    SFE_UBLOX_GNSS* sensor;
+
+    long latitude;
+    long longitude;
+    long heading;
+    const float LAT_TO_METERS = 0.0011119;
+    const float LON_TO_METERS = 0.00079364;
+    //location of Northfield according to Google:
+    const long REFERENCE_LAT = 444583000;//units: deg*10^-7
+    const long REFERENCE_LON = -931616000;//units: deg*10^-7
+};
+
+GPS::Impl::Impl() : sensor(new SFE_UBLOX_GNSS()){
+    latitude = REFERENCE_LAT;
+    longitude = REFERENCE_LON;
 }
-void GPS::begin(){
+
+GPS::Impl::~Impl() {
+    delete sensor;
+}
+
+GPS::GPS() : pimpl(new Impl()){
+}
+
+GPS::~GPS() {
+    delete pimpl;
+}
+
+void GPS::init() {
     Wire.begin();
-    GNSS.begin();
+    pimpl->sensor->begin();
 
     //I don't know what these do, but all the examples use them
-    GNSS.setI2COutput(COM_TYPE_UBX);
-    GNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT);
+    pimpl->sensor->setI2COutput(COM_TYPE_UBX);
+    pimpl->sensor->saveConfigSelective(VAL_CFG_SUBSEC_IOPORT);
 
     //Set measurement rate to be twice a second
-    GNSS.setMeasurementRate(500); //units: ms
+    pimpl->sensor->setMeasurementRate(500); //units: ms
 }
-bool GPS::update(){
+
+void GPS::preInit() {
+}
+
+char* GPS::getName() {
+    static const name[] = "GPS";
+    return name;
+}
+
+int GPS::getStatus() {
+    return Status::OK;
+}
+
+int GPS::getError() {
+    return Error::NONE;
+}
+
+void GPS::update() {
     //Get new data if its available
-    if (GNSS.getPVT()){
-        latitude = GNSS.getLatitude();
-        longitude = GNSS.getLongitude();
-        heading = GNSS.getHeading();
-        return true;
+    if (pimpl->sensor->getPVT()) {
+        pimpl->latitude = pimpl->sensor->getLatitude();
+        pimpl->longitude = pimpl->sensor->getLongitude();
+        pimpl->heading = pimpl->sensor->getHeading();
     }
-    return false;
 }
-long GPS::getLatitudeRaw(){
-    return latitude;
+
+long GPS::getLatitudeRaw() {
+    return pimpl->latitude;
 }
-long GPS::getLongitudeRaw(){
-    return longitude;
+
+long GPS::getLongitudeRaw() {
+    return pimpl->longitude;
 }
-float GPS::getHeadingRaw(){
-    return heading;
+
+float GPS::getHeadingRaw() {
+    return pimpl->heading;
 }
-float GPS::getLatitudeMeters(){
+
+float GPS::getLatitudeMeters() {
     Serial.print("raw lat: ");
-    Serial.println(latitude);
-    long relative = latitude - referenceLatitude;
+    Serial.println(pimpl->latitude);
+    long relative = pimpl->latitude - Impl::REFERENCE_LAT;
     Serial.print("relative lat: ");
     Serial.println(relative);
-    return relative * rawLatToMeters;
+    return relative * Impl::LAT_TO_METERS;
 }
-float GPS::getLongitudeMeters(){
+
+float GPS::getLongitudeMeters() {
     Serial.print("raw lon: ");
     Serial.println(longitude);
-    long relative = longitude - referenceLongitude;
+    long relative = pimpl->longitude - Impl::REFERENCE_LON;
     Serial.print("relative lon: ");
     Serial.println(relative);
-    return relative * rawLonToMeters;
+    return relative * Impl::LON_TO_METERS;
 }
-Vector2 GPS::getPosVector(){
+
+Vector2 GPS::getPosVector() {
     return Vector2(getLongitudeMeters(), getLatitudeMeters());
 }
-Vector2 GPS::getHeadingVector(){
+
+Vector2 GPS::getHeadingVector() {
     //returns a unit vector indicating current heading
     //due east is (1,0)
     //due north is (0,1)
@@ -66,4 +117,12 @@ Vector2 GPS::getHeadingVector(){
     //note: sin and cos are switched because heading is
     //traditionally measured clockwise from due north (0,1) whereas
     //trig functions naturally go counterclockwise from (1,0).
+}
+
+bool GPS::isEnabled() {
+    return true;
+}
+
+void GPS::shutdown() {
+    pimpl->sensor->end();
 }
